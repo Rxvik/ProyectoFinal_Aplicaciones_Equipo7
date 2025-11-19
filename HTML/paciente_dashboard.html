@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-ER">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Papuclinica</title>
+    
+    <link rel="stylesheet" href="../ASSETS/css/dashboard.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="dashboard-layout">
+
+        <aside class="sidebar">
+            
+            <div class="sidebar-logo">
+                <img src="../ASSETS/img/logo.svg" alt="Logo Papuclinica" class="papuclinica-logo-img">
+                <span>Papuclinica</span>
+            </div>
+
+            <nav class="sidebar-menu">
+                <ul>
+                    <li>
+                        <a href="paciente_dashboard.html" class="active">
+                            <span>Inicio (Dashboard)</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="paciente_agendar_cita.html">
+                            <span>Agendar Cita</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="paciente_miscitas.html">
+                            <span>Mis Citas</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="paciente_perfil.html">
+                            <span>Mi Perfil</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-logout">
+                <a href="login.html">
+                    <span>Cerrar Sesión</span>
+                </a>
+            </div>
+        </aside>
+
+        <div class="main-wrapper">
+
+            <header class="navbar">
+                <div class="navbar-search">
+                    <input type="text" placeholder="Buscar...">
+                </div>
+                <div class="navbar-user">
+                    <img src="https://via.placeholder.com/40" alt="Avatar de Paciente">
+                    <span>Paciente User</span>
+                </div>
+            </header>
+
+            <main class="content-area">
+                <h1 class="content-title">Bienvenido, Paciente</h1>
+                
+                <p class="content-subtitle" style="font-size: 1.1rem; color: var(--text-color-light); margin-top: -1.5rem; margin-bottom: 2rem;">
+                    Aquí puedes gestionar tus citas de forma rápida.
+                </p>
+                
+                <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
+                    
+                    <div class="stat-card neumorph-card" style="text-align: left; padding: 2rem;">
+                        <span class="card-icon"> <img src="../ASSETS/img/calendar.svg" alt="note icon" class="calendar-img"> </span>
+                        <h3>Próxima Cita</h3>
+                        <p class="stat-number" style="font-size: 1.25rem; color: var(--text-color-medium);">
+                            No tienes citas programadas.
+                        </p>
+                        </div>
+
+                    <a href="paciente_agendar_cita.html" class="stat-card neumorph-card" style="text-decoration: none; color: inherit; background-color: var(--primary-blue); color: white; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                        <span class="card-icon"> <img src="../ASSETS/img/plus.png" alt="plus icon" class="plus-img"> </span>
+                        <h3 style="color: white; font-size: 1.2rem; text-transform: none;">Agendar Nueva Cita</h3>
+                        <p style="font-size: 1rem; opacity: 0.8;">Encuentra un horario disponible</p>
+                    </a>
+                </div>
+
+            </main>
+        </div>
+
+    </div>
+
+</body>
+</html>
