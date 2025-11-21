@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-ER">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendar Cita - Papuclinica</title>
+    
+    <link rel="stylesheet" href="../ASSETS/css/dashboard.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="dashboard-layout">
+
+        <aside class="sidebar">
+            
+            <div class="sidebar-logo">
+                <img src="../ASSETS/img/logo.svg" alt="Logo Papuclinica" class="papuclinica-logo-img">
+                <span>Papuclinica</span>
+            </div>
+
+            <nav class="sidebar-menu">
+                <ul>
+                    <li>
+                        <a href="paciente_dashboard.html">
+                            <span>Inicio (Dashboard)</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="paciente_agendar_cita.html" class="active">
+                            <span>Agendar Cita</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="paciente_miscitas.html">
+                            <span>Mis Citas</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="paciente_perfil.html">
+                            <span>Mi Perfil</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-logout">
+                <a href="login.html">
+                    <span>Cerrar Sesión</span>
+                </a>
+            </div>
+        </aside>
+
+        <div class="main-wrapper">
+
+            <header class="navbar">
+                <div class="navbar-search">
+                    <input type="text" placeholder="Buscar...">
+                </div>
+                <div class="navbar-user">
+                    <img src="https://via.placeholder.com/40" alt="Avatar de Paciente">
+                    <span>Paciente User</span>
+                </div>
+            </header>
+
+            <main class="content-area">
+                <h1 class="content-title">Agenda tu Cita</h1>
+                
+                <p class="content-subtitle" style="font-size: 1.1rem; color: var(--text-color-light); margin-top: -1.5rem; margin-bottom: 2rem;">
+                    Paso 1: Selecciona un día disponible en el calendario.
+                </p>
+
+                <div class="calendar-wrapper neumorph-card">
+                    <div class="calendar-header-sim">
+                        <button class="neumorph-btn-alt">&lt;</button>
+                        <h2>Noviembre 2025</h2>
+                        <button class="neumorph-btn-alt">&gt;</button>
+                    </div>
+                    <div class="calendar-body-sim">
+                        <p><i>[Simulación de FullCalendar.js]</i></p>
+                        <p>Aquí se mostrará el calendario interactivo.</p>
+                    </div>
+                </div>
+
+                <div class="horarios-wrapper">
+                    <h2 class="section-title">Paso 2: Elige un horario</h2>
+                    <p class="section-subtitle" style="color: var(--text-color-light); margin-top: -0.5rem;">
+                        Horarios disponibles para el <strong>Lunes, 17 de Noviembre</strong>
+                    </p>
+                    
+                    <div class="horarios-grid">
+                        <button class="horario-slot">09:00 AM</button>
+                        <button class="horario-slot">09:30 AM</button>
+                        <button class="horario-slot disabled" disabled>10:00 AM</button> <button class="horario-slot">10:30 AM</button>
+                        <button class="horario-slot">11:00 AM</button>
+                        <button class="horario-slot">11:30 AM</button>
+                        <button class="horario-slot">01:00 PM</button>
+                        <button class="horario-slot">01:30 PM</button>
+                    </div>
+
+                    <button class="btn-primary" style="width: 100%; margin-top: 2rem;">
+                        Confirmar Cita
+                    </button>
+                </div>
+            </main>
+        </div>
+
+    </div>
+
+</body>
+</html>

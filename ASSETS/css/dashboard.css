@@ -190,6 +190,7 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 2rem;
+    align-items: center;
 }
 
 .stat-card {
@@ -199,6 +200,7 @@ body {
     font-size: 2.5rem;
     display: block;
     margin-bottom: 1rem;
+    text-align: center;
 }
 .stat-card h3 {
     font-size: 1rem;
