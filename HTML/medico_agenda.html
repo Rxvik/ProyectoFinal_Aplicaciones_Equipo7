@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Agenda - Papuclinica</title>
+    
+    <link rel="stylesheet" href="../ASSETS/css/dashboard.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="dashboard-layout">
+
+        <aside class="sidebar">
+            
+            <div class="sidebar-logo">
+                <img src="../ASSETS/img/logo.svg" alt="Logo Papuclinica" class="papuclinica-logo-img">
+                <span>Papuclinica</span>
+            </div>
+
+            <nav class="sidebar-menu">
+                <ul>
+                    <li>
+                        <a href="medico_dashboard.html"> <span>Inicio (Dashboard)</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="medico_agenda.html" class="active">
+                            <span>Mi Agenda</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="medico_pacientes.html"> <span>Mis Pacientes</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="medico_horarios.html"> <span>Configurar Horarios</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-logout">
+                <a href="login.html">
+                    <span>Cerrar Sesión</span>
+                </a>
+            </div>
+        </aside>
+
+        <div class="main-wrapper">
+
+            <header class="navbar">
+                <div class="navbar-search">
+                    <input type="text" placeholder="Buscar en mi agenda...">
+                </div>
+                <div class="navbar-user">
+                    <img src="https://via.placeholder.com/40" alt="Avatar de Médico">
+                    <span>Dr. Alan Torres</span>
+                </div>
+            </header>
+
+            <main class="content-area">
+                
+                <h1 class="content-title">Mi Agenda</h1>
+                
+                <p class="content-subtitle" style="font-size: 1.1rem; color: var(--text-color-light); margin-top: -1.5rem; margin-bottom: 2rem;">
+                    Consulta tus citas programadas. (Vista Semanal/Mensual)
+                </p>
+
+                <div class="calendar-wrapper neumorph-card">
+                    
+                    <div class="calendar-header-sim">
+                        <button class="neumorph-btn-alt">&lt;</button>
+                        <h2>Noviembre 2025</h2>
+                        <button class="neumorph-btn-alt">&gt;</button>
+                        
+                        </div>
+                    
+                    <div class="calendar-body-sim" style="min-height: 500px;">
+                        <p><i>[Simulación de FullCalendar.js]</i></p>
+                        <p>Aquí se mostraría el calendario completo con las citas
+                           <span style="color: var(--primary-blue); font-weight: 600;">(ej. 10:30am - Paciente Juan)</span>
+                           ya agendadas.
+                        </p>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+</body>
+</html>
