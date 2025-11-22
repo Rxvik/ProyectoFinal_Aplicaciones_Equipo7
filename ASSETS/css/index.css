@@ -2,8 +2,8 @@
     --neumorph-bg: #E0E5EC;
     --neumorph-light-shadow: #FFFFFF;
     --neumorph-dark-shadow: #A3B1C6;
-    --primary-blue: #2563EB;
-    --primary-blue-dark: #1D4ED8;
+    --primary-blue: #7b9dfc;
+    --primary-blue-dark: #7b9dfc;
     --text-color-dark: #111827;
     --text-color-medium: #374151;
     --text-color-light: #6B7280;
@@ -17,7 +17,7 @@ textarea {
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: 'Nunito', sans-serif;
     background-color: var(--neumorph-bg);
     margin: 0;
     line-height: 1.6;
