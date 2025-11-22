@@ -1,4 +1,3 @@
-/* --- Variables para Neomorfismo --- */
 :root {
     --neumorph-bg: #E0E5EC;
     --neumorph-light-shadow: #FFFFFF;
@@ -10,7 +9,13 @@
     --text-color-light: #6B7280;
 }
 
-/* --- Estilos Globales y del Body --- */
+input, 
+button, 
+select, 
+textarea {
+    font-family: 'Nunito', sans-serif;
+}
+
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     background-color: var(--neumorph-bg);
@@ -22,7 +27,6 @@ body {
     overflow: hidden;
 }
 
-/* --- Contenedor Principal del Login --- */
 .login-container {
     background-color: var(--neumorph-bg);
     padding: 2.5rem;
@@ -36,7 +40,6 @@ body {
     transition: all 0.3s ease-in-out;
 }
 
-/* --- Encabezado e Ícono --- */
 .login-icon {
     text-align: center;
     margin-bottom: 1rem;
@@ -61,7 +64,6 @@ h2 {
     margin: 0 0 2rem;
 }
 
-/* --- Formulario --- */
 .form-group {
     margin-bottom: 1.25rem;
 }
@@ -99,7 +101,6 @@ h2 {
         0 0 0 2px var(--primary-blue);
 }
 
-/* --- Fila de Opciones --- */
 .options-row {
     display: flex;
     justify-content: space-between;
@@ -169,7 +170,6 @@ a.forgot-password:hover,
     text-decoration: underline;
 }
 
-/* --- Botón de Login --- */
 .login-button {
     width: 100%;
     padding: 0.875rem;
@@ -202,7 +202,6 @@ a.forgot-password:hover,
     transform: scale(0.98);
 }
 
-/* --- Enlace inferior --- */
 .bottom-link {
     text-align: center;
     margin-top: 1.5rem;
