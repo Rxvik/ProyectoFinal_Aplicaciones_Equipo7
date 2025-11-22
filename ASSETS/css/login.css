@@ -1,0 +1,221 @@
+:root {
+    --neumorph-bg: #E0E5EC;
+    --neumorph-light-shadow: #FFFFFF;
+    --neumorph-dark-shadow: #A3B1C6;
+    --primary-blue: #2563EB;
+    --primary-blue-dark: #1D4ED8;
+    --text-color-dark: #111827;
+    --text-color-medium: #374151;
+    --text-color-light: #6B7280;
+}
+
+input, 
+button, 
+select, 
+textarea {
+    font-family: 'Nunito', sans-serif;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--neumorph-bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    overflow: hidden;
+}
+
+.login-container {
+    background-color: var(--neumorph-bg);
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 
+        7px 7px 15px var(--neumorph-dark-shadow),
+        -7px -7px 15px var(--neumorph-light-shadow);
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+    transition: all 0.3s ease-in-out;
+}
+
+.login-icon {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+.login-icon svg {
+    stroke: var(--primary-blue);
+    filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.1));
+}
+
+h2 {
+    text-align: center;
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--text-color-dark);
+    margin: 0 0 0.5rem;
+}
+
+.subheading {
+    text-align: center;
+    font-size: 1rem;
+    color: var(--text-color-light);
+    margin: 0 0 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-color-medium);
+    margin-bottom: 0.5rem;
+}
+
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group input[type="text"] {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    box-sizing: border-box;
+    background-color: var(--neumorph-bg);
+    box-shadow: 
+        inset 5px 5px 10px var(--neumorph-dark-shadow),
+        inset -5px -5px 10px var(--neumorph-light-shadow);
+    color: var(--text-color-dark);
+    transition: all 0.3s ease-in-out;
+}
+
+.form-group input:focus {
+    outline: none;
+    box-shadow: 
+        inset 2px 2px 5px var(--neumorph-dark-shadow),
+        inset -2px -2px 5px var(--neumorph-light-shadow),
+        0 0 0 2px var(--primary-blue);
+}
+
+.options-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+}
+
+.remember-me input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    margin-right: 0.5rem;
+    border-radius: 6px;
+    background-color: var(--neumorph-bg);
+    cursor: pointer;
+    position: relative;
+    box-shadow: 
+        inset 2px 2px 4px var(--neumorph-dark-shadow),
+        inset -2px -2px 4px var(--neumorph-light-shadow);
+    transition: all 0.2s ease-in-out;
+}
+
+.remember-me input[type="checkbox"]:checked {
+    background-color: var(--primary-blue);
+    border: none;
+    box-shadow: 
+        2px 2px 4px rgba(0,0,0,0.2) inset,
+        -2px -2px 4px rgba(255,255,255,0.7) inset,
+        0 0 0 2px var(--primary-blue);
+}
+
+.remember-me input[type="checkbox"]:checked::before {
+    content: '✓';
+    display: block;
+    color: white;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.remember-me label {
+    margin: 0;
+    font-weight: 500;
+    color: var(--text-color-medium);
+}
+
+a.forgot-password,
+.bottom-link a {
+    color: var(--primary-blue);
+    text-decoration: none;
+    font-weight: 500;
+}
+a.forgot-password:hover,
+.bottom-link a:hover {
+    text-decoration: underline;
+}
+
+.login-button {
+    width: 100%;
+    padding: 0.875rem;
+    background-color: var(--primary-blue);
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 
+        5px 5px 10px var(--neumorph-dark-shadow),
+        -5px -5px 10px var(--neumorph-light-shadow);
+    transition: all 0.2s ease-in-out;
+}
+
+.login-button:hover {
+    background-color: var(--primary-blue-dark);
+    box-shadow: 
+        inset 3px 3px 7px var(--primary-blue-dark),
+        inset -3px -3px 7px rgba(255,255,255,0.5);
+    transform: scale(0.99);
+}
+
+.login-button:active {
+    background-color: var(--primary-blue-dark);
+    box-shadow: 
+        inset 3px 3px 7px var(--primary-blue-dark),
+        inset -3px -3px 7px rgba(255,255,255,0.5);
+    transform: scale(0.98);
+}
+
+.bottom-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.875rem;
+    color: var(--text-color-light);
+}
+
+
+.login-logo {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.papuclinica-logo-img {
+    width: 80px; 
+    height: auto; 
+}

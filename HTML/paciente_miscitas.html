@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-ER">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Citas - Papuclinica</title>
+    
+    <link rel="stylesheet" href="../ASSETS/css/dashboard.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="dashboard-layout">
+
+        <aside class="sidebar">
+            
+            <div class="sidebar-logo">
+                <img src="../ASSETS/img/logo.svg" alt="Logo Papuclinica" class="papuclinica-logo-img">
+                <span>Papuclinica</span>
+            </div>
+
+            <nav class="sidebar-menu">
+                <ul>
+                    <li>
+                        <a href="paciente_dashboard.html">
+                            <span>Inicio (Dashboard)</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="paciente_agendar_cita.html">
+                            <span>Agendar Cita</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="paciente_miscitas.html" class="active">
+                            <span>Mis Citas</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="paciente_perfil.html">
+                            <span>Mi Perfil</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-logout">
+                <a href="login.html">
+                    <span>Cerrar Sesión</span>
+                </a>
+            </div>
+        </aside>
+
+        <div class="main-wrapper">
+
+            <header class="navbar">
+                <div class="navbar-search">
+                    <input type="text" placeholder="Buscar...">
+                </div>
+                <div class="navbar-user">
+                    <img src="https://via.placeholder.com/40" alt="Avatar de Paciente">
+                    <span>Paciente User</span>
+                </div>
+            </header>
+
+            <main class="content-area">
+                <h1 class="content-title">Mis Citas</h1>
+                
+                <div class="citas-seccion neumorph-card" style="padding: 2rem;">
+                    <h2 class="section-title" style="margin-bottom: 2rem;">Citas Próximas</h2>
+
+                    <ul class="citas-list">
+                        <li class="cita-card">
+                            <div class="cita-info">
+                                <span class="fecha">Martes, 18 Nov</span>
+                                <span class="doctor">10:30 AM - Dr. Alan Torres</span>
+                                <span class="especialidad">Cardiología</span>
+                            </div>
+                            <div class="cita-actions">
+                                <button class="btn-danger">Cancelar</button>
+                            </div>
+                        </li>
+                        
+                        <li class="cita-card">
+                            <div class="cita-info">
+                                <span class="fecha">Viernes, 21 Nov</span>
+                                <span class="doctor">09:00 AM - Dra. Elena Ruiz</span>
+                                <span class="especialidad">Dermatología</span>
+                            </div>
+                            <div class="cita-actions">
+                                <button class="btn-danger">Cancelar</button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="citas-seccion neumorph-card" style="padding: 2rem; margin-top: 2rem;">
+                    <h2 class="section-title" style="margin-bottom: 2rem;">Historial de Citas</h2>
+
+                    <ul class="citas-list">
+                        <li class="cita-card pasada">
+                            <div class="cita-info">
+                                <span class="fecha">Lunes, 10 Nov</span>
+                                <span class="doctor">11:00 AM - Dr. Alan Torres</span>
+                                <span class="especialidad">Cardiología - (Completada)</span>
+                            </div>
+                            <div class="cita-actions">
+                                <button class="neumorph-btn-alt" style="color: var(--text-color-medium);">Ver Detalles</button>
+                            </div>
+                        </li>
+                        
+                        <li class="cita-card pasada">
+                            <div class="cita-info">
+                                <span class="fecha">Jueves, 06 Nov</span>
+                                <span class="doctor">04:00 PM - Dr. Carlos Mena</span>
+                                <span class="especialidad">Medicina General - (Completada)</span>
+                            </div>
+                            <div class="cita-actions">
+                                <button class="neumorph-btn-alt" style="color: var(--text-color-medium);">Ver Detalles</button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+</body>
+</html>

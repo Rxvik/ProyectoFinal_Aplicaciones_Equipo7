@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Médicos - Papuclinica</title>
+
+    <link rel="stylesheet" href="../ASSETS/css/dashboard.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="dashboard-layout">
+
+        <aside class="sidebar">
+
+            <div class="sidebar-logo">
+                <img src="../ASSETS/img/logo.svg" alt="Logo Papuclinica" class="papuclinica-logo-img">
+                <span>Papuclinica</span>
+            </div>
+
+            <nav class="sidebar-menu">
+                <ul>
+                    <li>
+                        <a href="admin_dashboard.html">
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="admin_gestor_citas.html" class="active">
+                            <span>Gestión de Citas</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="admin_gestor_medicos.html">
+                            <span>Gestión de Médicos</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="admin_gestor_pacientes.html">
+                            <span>Gestión de Pacientes</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="admin_reportes.html">
+                            <span>Reportes</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-logout">
+                <a href="login.html">
+                    <span>Cerrar Sesión</span>
+                </a>
+            </div>
+
+        </aside>
+
+        <div class="main-wrapper">
+
+            <header class="navbar">
+                <div class="navbar-search">
+                    <input type="text" placeholder="Buscar...">
+                </div>
+                <div class="navbar-user">
+                    <img src="https://via.placeholder.com/40" alt="Avatar de Admin">
+                    <span>Admin User</span>
+                </div>
+            </header>
+
+            <main class="content-area">
+
+                <div class="content-header">
+                    <h1 class="content-title">Gestión de Citas</h1>
+                    <button class="btn-primary" style="display: flex; align-items: center; gap: 8px;">
+                        <img src="../ASSETS/img/plus.png" alt="icon" style="width: 16px; height: 16px; filter: brightness(0) invert(1);">
+                        Agregar Cita
+                    </button>
+                </div>
+
+                <div class="neumorph-card table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Paciente</th>
+                                <th>Médico</th>
+                                <th>Fecha y Hora</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td>Paciente User</td>
+                                <td>Dr. Alan Torres</td>
+                                <td>18/11/2025 - 10:30 AM</td>
+                                <td><span class="badge pending">Pendiente</span></td>
+                                <td class="table-actions">
+                                    <button class="neumorph-btn-alt">Editar</button>
+                                    <button class="btn-danger">Cancelar</button>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Maria López</td>
+                                <td>Dra. Elena Ruiz</td>
+                                <td>21/11/2025 - 09:00 AM</td>
+                                <td><span class="badge pending">Pendiente</span></td>
+                                <td class="table-actions">
+                                    <button class="neumorph-btn-alt">Editar</button>
+                                    <button class="btn-danger">Cancelar</button>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Juan Pérez</td>
+                                <td>Dr. Carlos Mena</td>
+                                <td>15/11/2025 - 11:00 AM</td>
+                                <td><span class="badge completed">Completada</span></td>
+                                <td class="table-actions">
+                                    <button class="neumorph-btn-alt">Ver Detalles</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </main>
+        </div>
+
+    </div>
+
+</body>
+</html>
