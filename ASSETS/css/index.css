@@ -1,25 +1,29 @@
-/* --- Variables CSS --- */
 :root {
     --neumorph-bg: #E0E5EC;
     --neumorph-light-shadow: #FFFFFF;
     --neumorph-dark-shadow: #A3B1C6;
-    --primary-blue: #2563EB;
-    --primary-blue-dark: #1D4ED8;
+    --primary-blue: #7b9dfc;
+    --primary-blue-dark: #7b9dfc;
     --text-color-dark: #111827;
     --text-color-medium: #374151;
     --text-color-light: #6B7280;
 }
 
-/* --- Estilos Globales --- */
+input, 
+button, 
+select, 
+textarea {
+    font-family: 'Nunito', sans-serif;
+}
+
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: 'Nunito', sans-serif;
     background-color: var(--neumorph-bg);
     margin: 0;
     line-height: 1.6;
     color: var(--text-color-dark);
 }
 
-/* --- Componentes Neomórficos --- */
 .neumorph-card {
     background-color: var(--neumorph-bg);
     border-radius: 20px;
@@ -71,7 +75,6 @@ body {
     transform: scale(0.99);
 }
 
-/* --- Header --- */
 .header {
     background-color: var(--neumorph-bg);
     padding: 1.25rem 2.5rem;
@@ -137,7 +140,6 @@ body {
         inset -2px -2px 5px rgba(255,255,255,0.5);
 }
 
-/* --- Hero Section --- */
 .hero-section {
     display: flex;
     justify-content: center;
@@ -202,7 +204,6 @@ body {
         inset -3px -3px 7px var(--neumorph-light-shadow);
 }
 
-/* --- Features Section --- */
 .features-section {
     padding: 5rem 2rem;
     text-align: center;
@@ -246,7 +247,6 @@ body {
     color: var(--text-color-light);
 }
 
-/* --- Footer --- */
 .footer {
     background-color: var(--neumorph-bg);
     text-align: center;
@@ -259,7 +259,6 @@ body {
         0 -2px 10px rgba(0,0,0,0.03);
 }
 
-/* --- Responsive Design --- */
 @media (max-width: 768px) {
     .header-content {
         flex-direction: column;

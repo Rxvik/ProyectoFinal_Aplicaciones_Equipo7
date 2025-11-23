@@ -16,7 +16,7 @@
     <div class="dashboard-layout">
 
         <aside class="sidebar">
-
+            
             <div class="sidebar-logo">
                 <img src="../ASSETS/img/logo.svg" alt="Logo Papuclinica" class="papuclinica-logo-img">
                 <span>Papuclinica</span>
@@ -30,7 +30,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="admin_gestor_citas.html" class="active">
+                        <a href="admin_gestor_citas.html">
                             <span>Gestión de Citas</span>
                         </a>
                     </li>
@@ -40,7 +40,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="admin_gestor_pacientes.html">
+                        <a href="admin_gestor_pacientes.html" class="active">
                             <span>Gestión de Pacientes</span>
                         </a>
                     </li>
@@ -73,9 +73,9 @@
             </header>
 
             <main class="content-area">
-
+                
                 <div class="content-header">
-                    <h1 class="content-title">Gestión de Citas</h1>
+                    <h1 class="content-title">Gestión de Pacientes</h1>
                     <button class="btn-primary" style="display: flex; align-items: center; gap: 8px;">
                         <img src="../ASSETS/img/plus.png" alt="icon" style="width: 16px; height: 16px; filter: brightness(0) invert(1);">
                         Agregar Cita
@@ -86,10 +86,10 @@
                     <table class="data-table">
                         <thead>
                             <tr>
-                                <th>Paciente</th>
-                                <th>Médico</th>
-                                <th>Fecha y Hora</th>
-                                <th>Estado</th>
+                                <th>Nombre</th>
+                                <th>Email</th>
+                                <th>Teléfono</th>
+                                <th>Fecha de Registro</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -97,33 +97,22 @@
                         <tbody>
                             <tr>
                                 <td>Paciente User</td>
-                                <td>Dr. Alan Torres</td>
-                                <td>18/11/2025 - 10:30 AM</td>
-                                <td><span class="badge pending">Pendiente</span></td>
+                                <td>paciente@mail.com</td>
+                                <td>462 999 8888</td>
+                                <td>15/11/2025</td>
                                 <td class="table-actions">
                                     <button class="neumorph-btn-alt">Editar</button>
-                                    <button class="btn-danger">Cancelar</button>
+                                    <button class="btn-danger">Eliminar</button>
                                 </td>
                             </tr>
-
                             <tr>
                                 <td>Maria López</td>
-                                <td>Dra. Elena Ruiz</td>
-                                <td>21/11/2025 - 09:00 AM</td>
-                                <td><span class="badge pending">Pendiente</span></td>
+                                <td>maria.lopez@mail.com</td>
+                                <td>477 111 2222</td>
+                                <td>14/11/2025</td>
                                 <td class="table-actions">
                                     <button class="neumorph-btn-alt">Editar</button>
-                                    <button class="btn-danger">Cancelar</button>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>Juan Pérez</td>
-                                <td>Dr. Carlos Mena</td>
-                                <td>15/11/2025 - 11:00 AM</td>
-                                <td><span class="badge completed">Completada</span></td>
-                                <td class="table-actions">
-                                    <button class="neumorph-btn-alt">Ver Detalles</button>
+                                    <button class="btn-danger">Eliminar</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -131,6 +120,7 @@
                 </div>
 
             </main>
+
         </div>
 
     </div>
