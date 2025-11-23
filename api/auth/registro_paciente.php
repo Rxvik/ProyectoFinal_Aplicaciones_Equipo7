@@ -29,11 +29,11 @@
     try {
         $conexion->beginTransaction();
 
-        $contrasena_encriptada = password_hash($password, PASSWORD_DEFAULT);
+        $contra_encriptada = password_hash($password, PASSWORD_DEFAULT);
 
-        $sql_usuario = "INSERT INTO usuarios (email, password, rol) VALUES (?, ?, 'paciente')";
+        $sql_usuario = "INSERT INTO usuarios (email, password_hash, rol) VALUES (?, ?, 'paciente')";
         $consulta = $conexion->prepare($sql_usuario);
-        $consulta->execute([$email, $contrasena_encriptada]);
+        $consulta->execute([$email, $contra_encriptada]);
         
         $id_nuevo_usuario = $conexion->lastInsertId();
 
