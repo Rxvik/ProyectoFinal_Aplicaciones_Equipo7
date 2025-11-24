@@ -9,7 +9,7 @@ Este repositorio contiene una aplicación web sencilla (PHP + MySQL) para el man
 **Tecnologías**:
 
 - **Backend:** PHP
-- **Base de datos:** MySQL (MAMP)
+- **Base de datos:** MySQL
 - **Frontend:** HTML, CSS, JavaScript
 - **Servidor local:** MAMP
 
@@ -39,11 +39,15 @@ Este repositorio contiene una aplicación web sencilla (PHP + MySQL) para el man
 ### Vista del Administrador
 ![Vista Administrador](ASSETS/img/vista_admin.png)
 
-**Autor**: Equipo 7
-Integrantes:
-Alexis Andrei Razo Armenta
-Axel Rainnier Vera Soto
-Daniel Diaz Medina
+**Autor**: 
+
+Equipo 7
+
+**Integrantes**:
+
+- Alexis Andrei Razo Armenta
+- Axel Rainnier Vera Soto
+- Daniel Diaz Medina
 
 
 

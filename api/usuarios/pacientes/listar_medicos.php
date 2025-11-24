@@ -1,7 +1,7 @@
 <?php
 
-    require_once '../config/headers.php';
-    require_once '../config/db.php';
+    require_once '../../config/headers.php';
+    require_once '../../config/db.php';
 
     try {
         $sql = "SELECT id_medico, nombre_completo, especialidad 
