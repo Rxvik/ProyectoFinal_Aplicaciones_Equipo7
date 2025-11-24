@@ -1,4 +1,7 @@
 <?php
+
+    date_default_timezone_set('America/Mexico_City');
+    
     $servidor = 'localhost';
     $puerto = '8889';
     $nombre_bd = 'clinica';

@@ -4,6 +4,8 @@
     require_once '../config/db.php';
     require_once '../config/verificar_paciente.php';
 
+    $datos_recibidos = json_decode(file_get_contents('php://input'), true);
+
     $id_medico_elegido = $datos_recibidos['id_medico'];
     $fecha_cita        = $datos_recibidos['fecha'];
     $hora_cita         = $datos_recibidos['hora'];
