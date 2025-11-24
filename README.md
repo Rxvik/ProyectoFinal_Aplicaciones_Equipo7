@@ -30,13 +30,20 @@ Este repositorio contiene una aplicación web sencilla (PHP + MySQL) para el man
 - `ASSETS/` - Estilos y recursos (CSS, imágenes).
 - `config/` - Configuración de base de datos y cabeceras.
 
-**Capturas**:
+### Vista del Paciente
+![Vista Paciente](ASSETS/img/vista_paciente.png)
 
-- ![Vista Paciente](ASSETS/img/vista_paciente.png)
-- ![Vista Médico](ASSETS/img/vista_medico.png)
-- ![Vista Administrador](ASSETS/img/vista_admin.png)
+### Vista del Medico
+![Vista Médico](ASSETS/img/vista_medico.png)
+
+### Vista del Administrador
+![Vista Administrador](ASSETS/img/vista_admin.png)
 
 **Autor**: Equipo 7
+Integrantes:
+Alexis Andrei Razo Armenta
+Axel Rainnier Vera Soto
+Daniel Diaz Medina
 
 
 
