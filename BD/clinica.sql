@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:8889
--- Tiempo de generación: 26-11-2025 a las 02:38:00
+-- Tiempo de generación: 26-11-2025 a las 09:44:25
 -- Versión del servidor: 5.7.24
 -- Versión de PHP: 8.3.1
 
@@ -69,7 +69,10 @@ INSERT INTO `citas` (`id_cita`, `id_paciente`, `id_medico`, `fecha_cita`, `hora_
 (23, 5, 13, '2025-11-30', '09:00:00', 'pendiente', NULL, NULL, '2025-11-24 22:01:28'),
 (24, 1, 2, '2025-12-03', '20:00:00', 'pendiente', NULL, NULL, '2025-11-26 01:59:36'),
 (25, 1, 2, '2025-12-05', '16:00:00', 'pendiente', NULL, NULL, '2025-11-26 02:25:19'),
-(26, 1, 2, '2025-12-09', '16:00:00', 'pendiente', NULL, NULL, '2025-11-26 02:35:57');
+(26, 1, 2, '2025-12-09', '16:00:00', 'pendiente', NULL, NULL, '2025-11-26 02:35:57'),
+(27, 3, 6, '2025-11-28', '10:30:00', 'pendiente', NULL, NULL, '2025-11-26 09:28:27'),
+(28, 3, 10, '2025-12-02', '15:40:00', 'pendiente', NULL, NULL, '2025-11-26 09:37:31'),
+(29, 3, 12, '2025-12-04', '10:40:00', 'pendiente', NULL, NULL, '2025-11-26 09:41:44');
 
 -- --------------------------------------------------------
 
@@ -176,7 +179,7 @@ INSERT INTO `medicos` (`id_medico`, `id_usuario`, `nombre_completo`, `especialid
 (5, 8, 'Dra. Grey', 'Dermatología', NULL),
 (6, 9, 'Dr. Strange', 'General', NULL),
 (7, 10, 'Dra. Quinn', 'Cardiología', NULL),
-(8, 11, 'Dr. Simi', 'Dermatología', NULL),
+(8, 11, 'Dr. Chapatin', 'Dermatología', NULL),
 (9, 12, 'Dra. Polo', 'Neurología', NULL),
 (10, 13, 'Dr. Who', 'General', NULL),
 (11, 14, 'Dr. Banner', 'Dermatología', NULL),
@@ -203,7 +206,7 @@ CREATE TABLE `pacientes` (
 INSERT INTO `pacientes` (`id_paciente`, `id_usuario`, `nombre_completo`, `telefono`) VALUES
 (1, 2, 'Fede Crusher', NULL),
 (2, 17, 'Penel Ra', '555-0000'),
-(3, 18, 'Maria Test', '555-0000'),
+(3, 18, 'Roberto Martinez', '555-0000'),
 (4, 19, 'Juan Test', '555-0000'),
 (5, 20, 'Luisa Test', '555-0000'),
 (6, 21, 'Carlos Test', '555-0000'),
@@ -247,7 +250,7 @@ INSERT INTO `usuarios` (`id_usuario`, `email`, `password_hash`, `rol`, `fecha_cr
 (15, 'doc9@test.com', '$2y$10$qaFD3Tztla9hHa0AmpDJv.MdPb1nXOs.3G4QAl3lzji91IJ7Vs3fu', 'medico', '2025-11-24 22:01:28'),
 (16, 'doc10@test.com', '$2y$10$U4FNeFi3X6ISSOwgrLC1Ae3MLArfApFqtpX.QL120at8ZMFeIySK6', 'medico', '2025-11-24 22:01:28'),
 (17, 'cuantollevamosgrabando@penel.com', '$2y$10$SQRHraQhKrmzr0Gf3PZeE.BEgvYwy6Fbn/n0rKPy5kDYkH7EMZ86a', 'paciente', '2025-11-24 22:01:28'),
-(18, 'paciente2@test.com', '$2y$10$tNLI9NJjVsc7UTXGs8JrMOaYuSvwyWAlV0jdqkIEiYXTT0LdG3aJu', 'paciente', '2025-11-24 22:01:28'),
+(18, 'andrei.razo@gmail.com', '$2y$10$tNLI9NJjVsc7UTXGs8JrMOaYuSvwyWAlV0jdqkIEiYXTT0LdG3aJu', 'paciente', '2025-11-24 22:01:28'),
 (19, 'paciente3@test.com', '$2y$10$6r46IMRknn6sw2u5LrP.zeHpXAP7DFVTOpzNeniqhAtzS6PjfofVy', 'paciente', '2025-11-24 22:01:28'),
 (20, 'paciente4@test.com', '$2y$10$ZLSNcI/mT.7jYOqLDBYa3eRO4KBS9TuWcMEXIRKsIIdXbh6/ovOEC', 'paciente', '2025-11-24 22:01:28'),
 (21, 'paciente5@test.com', '$2y$10$oLthAwPnWKvBSpjpsFARmuMBch72ETZAa5DdRWUASc19CmdPz4ri.', 'paciente', '2025-11-24 22:01:28'),
@@ -305,7 +308,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `citas`
 --
 ALTER TABLE `citas`
-  MODIFY `id_cita` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id_cita` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT de la tabla `horarios_medicos`
