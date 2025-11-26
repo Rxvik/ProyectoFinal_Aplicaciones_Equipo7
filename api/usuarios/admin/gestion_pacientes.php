@@ -4,8 +4,7 @@
     require_once '../../config/db.php';
     require_once '../../config/verificar_admin.php';
 
-    $json_input = file_get_contents('php://input');
-    $datos_recibidos = json_decode($json_input, true);
+    $datos_recibidos = json_decode(file_get_contents('php://input'), true);
 
     $accion = $datos_recibidos['accion'] ?? $_GET['accion'] ?? 'listar';
 

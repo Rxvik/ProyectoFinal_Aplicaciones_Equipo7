@@ -1,8 +1,8 @@
 <?php
 
-    require_once '../config/headers.php';
-    require_once '../config/db.php';
-    require_once '../config/verificar_medico.php';
+    require_once '../../config/headers.php';
+    require_once '../../config/db.php';
+    require_once '../../config/verificar_medico.php';
 
     try {
 
