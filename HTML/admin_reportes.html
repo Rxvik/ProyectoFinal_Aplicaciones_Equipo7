@@ -81,31 +81,29 @@
 
                 <div class="neumorph-card" style="padding: 2.5rem; max-width: 600px;">
                     
-                    <form action="#" class="report-form">
-                        
+                    <form action="../api/usuarios/admin/reporte_impresion.php" method="GET" target="_blank" class="report-form">
+    
                         <div class="form-group-neumorph">
                             <label for="fecha_inicio">Fecha de Inicio</label>
-                            <input type="date" id="fecha_inicio" class="input-neumorph">
+                            <input type="date" id="fecha_inicio" name="fecha_inicio" class="input-neumorph">
                         </div>
 
                         <div class="form-group-neumorph">
                             <label for="fecha_fin">Fecha de Fin</label>
-                            <input type="date" id="fecha_fin" class="input-neumorph">
+                            <input type="date" id="fecha_fin" name="fecha_fin" class="input-neumorph">
                         </div>
 
                         <div class="form-group-neumorph">
                             <label for="medico">Médico</label>
-                            <select id="medico" class="input-neumorph">
+                            <select id="medico" name="medico" class="input-neumorph">
                                 <option value="todos">Todos los médicos</option>
-                                <option value="1">Dr. Alan Torres</option>
-                                <option value="2">Dra. Elena Ruiz</option>
-                                <option value="3">Dr. Carlos Mena</option>
-                            </select>
+                                <option value="1">Dr. Alan Torres (ID 1)</option> <option value="2">Dra. Elena Ruiz (ID 2)</option>
+                                </select>
                         </div>
                         
                         <div class="form-group-neumorph">
                             <label for="estado_cita">Estado de la Cita</label>
-                            <select id="estado_cita" class="input-neumorph">
+                            <select id="estado_cita" name="estado_cita" class="input-neumorph">
                                 <option value="todas">Todas (Completadas, Pendientes, Canceladas)</option>
                                 <option value="completada">Solo Completadas</option>
                                 <option value="pendiente">Solo Pendientes</option>
