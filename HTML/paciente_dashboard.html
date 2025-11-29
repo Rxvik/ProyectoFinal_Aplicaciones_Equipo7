@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-ER">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Papuclinica</title>
     
@@ -78,8 +78,10 @@
                     <div class="stat-card neumorph-card" style="padding: 2rem; display: flex; flex-direction: column; align-items: center; justify-content: center;">
                         <span class="card-icon"> <img src="../ASSETS/img/calendar.svg" alt="note icon" class="calendar-img"> </span>
                         <h3>Próxima Cita</h3>
-                        <p class="stat-number" style="font-size: 1.25rem; color: var(--text-color-medium);">
-                            No tienes citas programadas.
+                        <p class="stat-number" id="dashboard-proxima-info" style="font-size: 1.25rem; color: var(--text-color-medium);">
+                            Cargando...
+                        </p>
+                        <p id="dashboard-proxima-detalle" style="font-size: 0.9rem; color: var(--text-color-light); margin-top: 0;">
                         </p>
                         </div>
 

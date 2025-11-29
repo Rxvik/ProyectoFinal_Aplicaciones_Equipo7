@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    <meta charset="UTF-ER">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Perfil - Papuclinica</title>
-    
+
     <link rel="stylesheet" href="../ASSETS/css/dashboard.css">
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+
 <body>
 
     <div class="dashboard-layout">
 
         <aside class="sidebar">
-            
+
             <div class="sidebar-logo">
                 <img src="../ASSETS/img/logo.svg" alt="Logo Papuclinica" class="papuclinica-logo-img">
                 <span>Papuclinica</span>
@@ -67,15 +69,16 @@
 
             <main class="content-area">
                 <h1 class="content-title">Mi Perfil</h1>
-                
-                <p class="content-subtitle" style="font-size: 1.1rem; color: var(--text-color-light); margin-top: -1.5rem; margin-bottom: 2rem;">
+
+                <p class="content-subtitle"
+                    style="font-size: 1.1rem; color: var(--text-color-light); margin-top: -1.5rem; margin-bottom: 2rem;">
                     Actualiza tu información personal y de seguridad.
                 </p>
 
                 <div class="neumorph-card" style="padding: 2.5rem; max-width: 800px;">
-                    
+
                     <form action="#" class="profile-form" id="perfil-form">
-                        
+
                         <div class="form-group-neumorph">
                             <label for="fullname">Nombre Completo</label>
                             <input type="text" id="fullname" value="Paciente User" class="input-neumorph">
@@ -85,18 +88,25 @@
                             <label for="email">Email</label>
                             <input type="email" id="email" value="paciente@mail.com" class="input-neumorph">
                         </div>
-                        
+
+                        <div class="form-group-neumorph">
+                            <label for="phone">Teléfono</label>
+                            <input type="tel" id="phone" class="input-neumorph" placeholder="Numero de Telefono"
+                            title="Ingresa un número de teléfono válido (10 dígitos)">
+                        </div>
                         <hr class="form-divider">
                         <h3 class="section-title" style="font-size: 1.25rem; margin-top: 2rem;">Cambiar Contraseña</h3>
 
                         <div class="form-group-neumorph">
                             <label for="new_password">Nueva Contraseña</label>
-                            <input type="password" id="new_password" placeholder="Deja en blanco para no cambiar" class="input-neumorph">
+                            <input type="password" id="new_password" placeholder="Deja en blanco para no cambiar"
+                                class="input-neumorph">
                         </div>
 
                         <div class="form-group-neumorph">
                             <label for="confirm_password">Confirmar Nueva Contraseña</label>
-                            <input type="password" id="confirm_password" placeholder="Repite la nueva contraseña" class="input-neumorph">
+                            <input type="password" id="confirm_password" placeholder="Repite la nueva contraseña"
+                                class="input-neumorph">
                         </div>
 
                         <button type="submit" class="btn-primary" style="margin-top: 2rem;">
@@ -112,4 +122,5 @@
     <script src="../ASSETS/JS/auth.js"></script>
     <script src="../ASSETS/JS/paciente_app.js"></script>
 </body>
+
 </html>

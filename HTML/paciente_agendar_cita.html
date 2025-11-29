@@ -1,22 +1,24 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    <meta charset="UTF-ER">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agendar Cita - Papuclinica</title>
-    
+
     <link rel="stylesheet" href="../ASSETS/css/dashboard.css">
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
     <div class="dashboard-layout">
 
         <aside class="sidebar">
-            
+
             <div class="sidebar-logo">
                 <img src="../ASSETS/img/logo.svg" alt="Logo Papuclinica" class="papuclinica-logo-img">
                 <span>Papuclinica</span>
@@ -49,7 +51,7 @@
 
             <div class="sidebar-logout">
                 <a href="login.html" id="logout-btn">
-                    <span>Cerrar Sesión</span>
+                    <span>Cerrar Sesion</span>
                 </a>
             </div>
         </aside>
@@ -61,47 +63,50 @@
                     <input type="text" placeholder="Buscar...">
                 </div>
                 <div class="navbar-user">
-                    <img src="https://via.placeholder.com/40" alt="Avatar de Paciente">
+                    <img src="" alt="Avatar de Paciente">
                     <span id="navbar-username">Paciente User</span>
                 </div>
             </header>
 
             <main class="content-area">
                 <h1 class="content-title">Agenda tu Cita</h1>
-                
-                <p class="content-subtitle" style="font-size: 1.1rem; color: var(--text-color-light); margin-top: -1.5rem; margin-bottom: 2rem;">
-                    Paso 1: Selecciona un día disponible en el calendario.
+                <p class="content-subtitle"
+                    style="font-size: 1.1rem; color: var(--text-color-light); margin-top: -1.5rem; margin-bottom: 2rem;">
+                    Sigue los pasos para encontrar un horario ideal.
                 </p>
 
-                <div class="calendar-wrapper neumorph-card">
-                    <div class="calendar-header-sim">
-                        <button class="neumorph-btn-alt">&lt;</button>
-                        <h2>Noviembre 2025</h2>
-                        <button class="neumorph-btn-alt">&gt;</button>
-                    </div>
-                    <div class="calendar-body-sim">
-                        <p><i>[Simulación de FullCalendar.js]</i></p>
-                        <p>Aquí se mostrará el calendario interactivo.</p>
+                <div class="neumorph-card" style="padding: 2.5rem; margin-bottom: 2rem;">
+                    <h2 class="section-title">Paso 1: Selecciona el Médico</h2>
+                    <div class="form-group-neumorph">
+                        <label for="select-medico">Médico y Especialidad</label>
+                        <select id="select-medico" class="input-neumorph" required>
+                            <option value="" disabled selected>Cargando médicos...</option>
+                        </select>
                     </div>
                 </div>
 
-                <div class="horarios-wrapper">
-                    <h2 class="section-title">Paso 2: Elige un horario</h2>
+                <div id="horarios-wrapper" class="neumorph-card" style="padding: 2.5rem; margin-top: 2rem;">
+                    <h2 class="section-title">Paso 2: Fecha y Hora</h2>
                     <p class="section-subtitle" style="color: var(--text-color-light); margin-top: -0.5rem;">
-                        Horarios disponibles para el <strong>Lunes, 17 de Noviembre</strong>
+                        Selecciona la fecha y hora que deseas.
                     </p>
-                    
-                    <div class="horarios-grid">
-                        <button class="horario-slot">09:00 AM</button>
-                        <button class="horario-slot">09:30 AM</button>
-                        <button class="horario-slot disabled" disabled>10:00 AM</button> <button class="horario-slot">10:30 AM</button>
-                        <button class="horario-slot">11:00 AM</button>
-                        <button class="horario-slot">11:30 AM</button>
-                        <button class="horario-slot">01:00 PM</button>
-                        <button class="horario-slot">01:30 PM</button>
+
+                    <div class="horarios-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group-neumorph">
+                            <label for="input-fecha">Fecha</label>
+                            <input type="date" id="input-fecha" class="input-neumorph" required>
+                        </div>
+                        <div class="form-group-neumorph">
+                            <label for="input-hora">Hora</label>
+                            <input type="time" id="input-hora" class="input-neumorph" min="09:00" max="17:00"
+                                step="1800" required>
+                        </div>
                     </div>
 
-                    <button class="btn-primary" style="width: 100%; margin-top: 2rem;">
+                    <div id="horarios-grid">
+                    </div>
+
+                    <button class="btn-primary" id="confirmar-cita-btn" style="width: 100%; margin-top: 2rem;" disabled>
                         Confirmar Cita
                     </button>
                 </div>
@@ -112,4 +117,5 @@
     <script src="../ASSETS/JS/auth.js"></script>
     <script src="../ASSETS/JS/paciente_app.js"></script>
 </body>
+
 </html>

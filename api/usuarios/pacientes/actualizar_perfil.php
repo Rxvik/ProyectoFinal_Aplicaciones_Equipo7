@@ -15,7 +15,7 @@
     $id_usuario = $_SESSION['id_usuario'];
 
     try {
-        $sql_buscar = "SELECT p.nombre_completo, u.email 
+        $sql_buscar = "SELECT p.nombre_completo, u.email, p.telefono 
                     FROM pacientes p
                     INNER JOIN usuarios u ON p.id_usuario = u.id_usuario
                     WHERE p.id_usuario = ?";
@@ -30,6 +30,7 @@
 
         $nombre_final = !empty($datos_recibidos['fullname']) ? trim($datos_recibidos['fullname']) : $info['nombre_completo'];
         $email_final  = !empty($datos_recibidos['email'])    ? trim($datos_recibidos['email'])    : $info['email'];
+        $telefono_final = !empty($datos_recibidos['phone'])    ? trim($datos_recibidos['phone'])    : $info['telefono'];
         
         $password_nuevo = trim($datos_recibidos['new_password'] ?? '');
 
@@ -60,9 +61,9 @@
             $consulta_usuario->execute([$email_final, $id_usuario]);
         }
 
-        $sql_paciente = "UPDATE pacientes SET nombre_completo = ? WHERE id_usuario = ?";
+        $sql_paciente = "UPDATE pacientes SET nombre_completo = ?, telefono = ? WHERE id_usuario = ?";
         $consulta_paciente = $conexion->prepare($sql_paciente);
-        $consulta_paciente->execute([$nombre_final, $id_usuario]);
+        $consulta_paciente->execute([$nombre_final, $telefono_final, $id_usuario]);
 
         $conexion->commit();
 
