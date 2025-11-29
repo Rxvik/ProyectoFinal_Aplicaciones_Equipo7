@@ -58,7 +58,7 @@
                     <input type="text" placeholder="Buscar en mi agenda...">
                 </div>
                 <div class="navbar-user">
-                    <img src="https://via.placeholder.com/40" alt="Avatar de Médico">
+                    <img src="" alt="Avatar de Médico">
                     <span id="navbar-username">Dr. Alan Torres</span>
                 </div>
             </header>
@@ -68,25 +68,25 @@
                 <h1 class="content-title">Mi Agenda</h1>
                 
                 <p class="content-subtitle" style="font-size: 1.1rem; color: var(--text-color-light); margin-top: -1.5rem; margin-bottom: 2rem;">
-                    Consulta tus citas programadas. (Vista Semanal/Mensual)
+                    Revisa las citas futuras y pendientes.
                 </p>
 
-                <div class="calendar-wrapper neumorph-card">
-                    
-                    <div class="calendar-header-sim">
-                        <button class="neumorph-btn-alt">&lt;</button>
-                        <h2>Noviembre 2025</h2>
-                        <button class="neumorph-btn-alt">&gt;</button>
-                        
-                        </div>
-                    
-                    <div class="calendar-body-sim" style="min-height: 500px;">
-                        <p><i>[Simulación de FullCalendar.js]</i></p>
-                        <p>Aquí se mostraría el calendario completo con las citas
-                           <span style="color: var(--primary-blue); font-weight: 600;">(ej. 10:30am - Paciente Juan)</span>
-                           ya agendadas.
-                        </p>
-                    </div>
+                <div class="neumorph-card table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Hora</th>
+                                <th>Paciente</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="citas-agenda-table-body">
+                            <tr>
+                                <td colspan="4" style="text-align: center;">Cargando agenda...</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
 
             </main>

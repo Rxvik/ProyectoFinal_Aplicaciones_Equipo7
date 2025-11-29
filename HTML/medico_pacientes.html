@@ -1,24 +1,26 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mis Pacientes - Papuclinica</title>
-    
+
     <link rel="stylesheet" href="../ASSETS/css/dashboard.css">
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
     <div class="dashboard-layout">
-        
+
         <aside class="sidebar">
             <div class="sidebar-logo">
-            <img src="../ASSETS/img/logo.svg" alt="Logo Papuclinica" class="papuclinica-logo-img">                
-            <span>Papuclinica</span>
+                <img src="../ASSETS/img/logo.svg" alt="Logo Papuclinica" class="papuclinica-logo-img">
+                <span>Papuclinica</span>
             </div>
 
             <nav class="sidebar-menu">
@@ -53,22 +55,22 @@
         </aside>
 
         <div class="main-wrapper">
-            
+
             <header class="navbar">
                 <div class="navbar-search">
                     <input type="text" placeholder="Buscar paciente...">
                 </div>
                 <div class="navbar-user">
-                    <img src="https://via.placeholder.com/40" alt="Avatar de Médico">
+                    <img src="" alt="Avatar de Médico">
                     <span id="navbar-username">Dr. Alan Torres</span>
                 </div>
             </header>
 
             <main class="content-area">
-                
+
                 <div class="content-header">
-                    <h1 class="content-title">Mis Pacientes</h1>
-                    </div>
+                    <h1 class="content-title">Pacientes atendidos.</h1>
+                </div>
 
                 <div class="neumorph-card table-container">
                     <table class="data-table">
@@ -81,38 +83,10 @@
                                 <th>Acciones</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>Paciente User</td>
-                                <td>paciente@mail.com</td>
-                                <td>462 999 8888</td>
-                                <td>18/11/2025</td>
-                                <td class="table-actions">
-                                    <button class="neumorph-btn-alt">Ver Historial</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Maria López</td>
-                                <td>maria.lopez@mail.com</td>
-                                <td>477 111 2222</td>
-                                <div>14/11/2025</div>
-                                <td class="table-actions">
-                                    <button class="neumorph-btn-alt">Ver Historial</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Juan Pérez</td>
-                                <td>juan.perez@mail.com</td>
-                                <td>462 333 4444</td>
-                                <div>15/11/2025</div>
-                                <td class="table-actions">
-                                    <button class="neumorph-btn-alt">Ver Historial</button>
-                                </td>
-                            </tr>
+                        <tbody id="pacientes-table-body">
                         </tbody>
                     </table>
                 </div>
-
             </main>
         </div>
     </div>

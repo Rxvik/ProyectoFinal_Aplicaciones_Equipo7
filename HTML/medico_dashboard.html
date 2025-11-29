@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Papuclinica</title>
-    
+
     <link rel="stylesheet" href="../ASSETS/css/dashboard.css">
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -14,11 +14,11 @@
 <body>
 
     <div class="dashboard-layout">
-        
+
         <aside class="sidebar">
             <div class="sidebar-logo">
-            <img src="../ASSETS/img/logo.svg" alt="Logo Papuclinica" class="papuclinica-logo-img">                
-            <span>Papuclinica</span>
+                <img src="../ASSETS/img/logo.svg" alt="Logo Papuclinica" class="papuclinica-logo-img">
+                <span>Papuclinica</span>
             </div>
 
             <nav class="sidebar-menu">
@@ -54,64 +54,47 @@
         </aside>
 
         <div class="main-wrapper">
-            
+
             <header class="navbar">
                 <div class="navbar-search">
                     <input type="text" placeholder="Buscar paciente...">
                 </div>
                 <div class="navbar-user">
-                    <img src="https://via.placeholder.com/40" alt="Avatar de Médico">
+                    <img src="" alt="Avatar de Médico">
                     <span id="navbar-username">Dr. Alan Torres</span>
                 </div>
             </header>
 
             <main class="content-area">
-                
-                <h1 class="content-title" id="medico-title">Bienvenido, Dr. Torres</h1>
+
+                <h1 class="content-title" id="medico-title"></h1>
 
                 <div class="stats-grid">
                     <div class="stat-card neumorph-card">
-                        <span class="card-icon"> <img src="../ASSETS/img/doctor.svg" alt="doctor icon" class="doctor-img"> </span>
+                        <span class="card-icon"> <img src="../ASSETS/img/doctor.svg" alt="doctor icon"
+                                class="doctor-img"> </span>
                         <h3>Próxima Cita</h3>
-                        <p class="stat-number" id="proxima-cita-hora" style="font-size: 1.5rem;">10:30 AM</p>
-                        <span style="color: var(--text-color-light);">Paciente User</span>
+                        <p class="stat-number" id="proxima-cita-hora" style="font-size: 1.5rem;">Cargando...</p>
+                        <span style="color: var(--text-color-light);" id="proxima-cita-paciente">Cargando...</span>
                     </div>
                     <div class="stat-card neumorph-card">
-                        <span class="card-icon"> <img src="../ASSETS/img/note.svg" alt="note icon" class="note-img"> </span>
+                        <span class="card-icon"> <img src="../ASSETS/img/note.svg" alt="note icon" class="note-img">
+                        </span>
                         <h3>Total de Citas (Hoy)</h3>
-                        <p class="stat-number" id="citas-hoy-total">7</p>
+                        <p class="stat-number" id="citas-hoy-total">0</p>
                     </div>
                     <div class="stat-card neumorph-card">
-                        <span class="card-icon"> <img src="../ASSETS/img/bandage.svg" alt="bandage icon" class="bandage-img"> </span>
+                        <span class="card-icon"> <img src="../ASSETS/img/bandage.svg" alt="bandage icon"
+                                class="bandage-img"> </span>
                         <h3>Pacientes Atendidos</h3>
-                        <p class="stat-number" id="citas-hoy-list">2 / 7</p>
+                        <p class="stat-number" id="pacientes-atendidos-count">0 / 0</p>
                     </div>
                 </div>
 
                 <div class="citas-seccion neumorph-card" style="padding: 2rem; margin-top: 2.5rem;">
                     <h2 class="section-title" style="margin-bottom: 2rem;">Citas de Hoy</h2>
 
-                    <ul class="citas-list">
-                        <li class="cita-card">
-                            <div class="cita-info">
-                                <span class="fecha">10:30 AM</span>
-                                <span class="doctor">Paciente User</span>
-                                <span class="especialidad">Consulta General</span>
-                            </div>
-                            <div class="cita-actions">
-                                <button class="btn-primary" style="padding: 0.5rem 0.75rem; font-size: 0.8rem;">Marcar como Completada</button>
-                            </div>
-                        </li>
-                        
-                        <li class="cita-card pasada"> <div class="cita-info">
-                                <span class="fecha">10:00 AM</span>
-                                <span class="doctor">Maria López</span>
-                                <span class="especialidad">Seguimiento</span>
-                            </div>
-                            <div class="cita-actions">
-                                <span style="color: var(--text-color-light); font-weight: 600;">Completada</span>
-                            </div>
-                        </li>
+                    <ul class="citas-list" id="citas-hoy-list">
                     </ul>
                 </div>
 

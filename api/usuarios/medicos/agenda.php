@@ -14,7 +14,7 @@
         $sql_cita = "SELECT c.id_cita, c.fecha_cita, c.hora_cita, p.nombre_completo 
                 FROM citas c
                 INNER JOIN pacientes p ON c.id_paciente = p.id_paciente
-                WHERE c.id_medico = ? AND c.estado != 'cancelada'";
+                WHERE c.id_medico = ? AND c.estado NOT IN ('cancelada', 'completada')";
                 
         $consulta_cita = $conexion->prepare($sql_cita);
         $consulta_cita->execute([$id_medico]);

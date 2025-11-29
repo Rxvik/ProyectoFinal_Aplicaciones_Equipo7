@@ -1,24 +1,26 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Configurar Horarios - Papuclinica</title>
-    
+
     <link rel="stylesheet" href="../ASSETS/css/dashboard.css">
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
     <div class="dashboard-layout">
-        
+
         <aside class="sidebar">
             <div class="sidebar-logo">
-            <img src="../ASSETS/img/logo.svg" alt="Logo Papuclinica" class="papuclinica-logo-img">                
-            <span>Papuclinica</span>
+                <img src="../ASSETS/img/logo.svg" alt="Logo Papuclinica" class="papuclinica-logo-img">
+                <span>Papuclinica</span>
             </div>
 
             <nav class="sidebar-menu">
@@ -53,79 +55,41 @@
         </aside>
 
         <div class="main-wrapper">
-            
+
             <header class="navbar">
                 <div class="navbar-search">
                     <input type="text" placeholder="Buscar...">
                 </div>
                 <div class="navbar-user">
-                    <img src="https://via.placeholder.com/40" alt="Avatar de Médico">
+                    <img src="" alt="Avatar de Médico">
                     <span id="navbar-username">Dr. Alan Torres</span>
                 </div>
             </header>
 
             <main class="content-area">
-                
+
                 <h1 class="content-title">Configurar Horarios</h1>
-                <p class="content-subtitle" style="font-size: 1.1rem; color: var(--text-color-light); margin-top: -1.5rem; margin-bottom: 2rem;">
+                <p class="content-subtitle"
+                    style="font-size: 1.1rem; color: var(--text-color-light); margin-top: -1.5rem; margin-bottom: 2rem;">
                     Define tus horas de trabajo para que los pacientes puedan agendar.
                 </p>
-                
+
                 <div class="neumorph-card" style="padding: 2.5rem; max-width: 800px;">
                     <form action="#" id="horarios-form">
                         <div class="horarios-config-list" id="horarios-container">
-                            
-                            <div class="horario-day-row" data-dia="Lunes">
-                                <strong class="day-name">Lunes</strong>
-                                <label class="switch">
-                                    <input type="checkbox" checked name="dia_activo[]">
-                                    <span class="slider"></span>
-                                </label>
-                                <div class="time-inputs">
-                                    <input type="time" class="input-neumorph" value="09:00" name="hora_inicio[]">
-                                    <span>-</span>
-                                    <input type="time" class="input-neumorph" value="14:00" name="hora_fin[]">
-                                </div>
-                            </div>
-                            
-                            <div class="horario-day-row">
-                                <strong class="day-name">Martes</strong>
-                                <label class="switch">
-                                    <input type="checkbox">
-                                    <span class="slider"></span>
-                                </label>
-                                <div class="time-inputs disabled">
-                                    <input type="time" class="input-neumorph" disabled>
-                                    <span>-</span>
-                                    <input type="time" class="input-neumorph" disabled>
-                                </div>
-                            </div>
-                            
-                            <div class="horario-day-row">
-                                <strong class="day-name">Miércoles</strong>
-                                <label class="switch">
-                                    <input type="checkbox" checked>
-                                    <span class="slider"></span>
-                                </label>
-                                <div class="time-inputs">
-                                    <input type="time" class="input-neumorph" value="09:00">
-                                    <span>-</span>
-                                    <input type="time" class="input-neumorph" value="14:00">
-                                </div>
-                            </div>
 
-                            </div>
-                        
+                        </div>
+
                         <button type="submit" class="btn-primary" style="margin-top: 2rem;">
                             Guardar Horarios
                         </button>
                     </form>
                 </div>
-
             </main>
         </div>
     </div>
     <script src="../ASSETS/JS/auth.js"></script>
     <script src="../ASSETS/JS/medico_app.js"></script>
 </body>
+
 </html>
