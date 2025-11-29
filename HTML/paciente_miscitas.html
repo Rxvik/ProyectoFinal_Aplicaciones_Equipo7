@@ -48,7 +48,7 @@
             </nav>
 
             <div class="sidebar-logout">
-                <a href="login.html">
+                <a href="login.html" id="logout-btn">
                     <span>Cerrar Sesión</span>
                 </a>
             </div>
@@ -62,7 +62,7 @@
                 </div>
                 <div class="navbar-user">
                     <img src="https://via.placeholder.com/40" alt="Avatar de Paciente">
-                    <span>Paciente User</span>
+                    <span id="navbar-username">Paciente User</span>
                 </div>
             </header>
 
@@ -72,7 +72,7 @@
                 <div class="citas-seccion neumorph-card" style="padding: 2rem;">
                     <h2 class="section-title" style="margin-bottom: 2rem;">Citas Próximas</h2>
 
-                    <ul class="citas-list">
+                    <ul class="citas-list" id="citas-proximas-list">
                         <li class="cita-card">
                             <div class="cita-info">
                                 <span class="fecha">Martes, 18 Nov</span>
@@ -100,7 +100,7 @@
                 <div class="citas-seccion neumorph-card" style="padding: 2rem; margin-top: 2rem;">
                     <h2 class="section-title" style="margin-bottom: 2rem;">Historial de Citas</h2>
 
-                    <ul class="citas-list">
+                    <ul class="citas-list" id="historia-citas-list">
                         <li class="cita-card pasada">
                             <div class="cita-info">
                                 <span class="fecha">Lunes, 10 Nov</span>
@@ -128,6 +128,7 @@
             </main>
         </div>
     </div>
-<script type="module" src="/ASSETS/js/main.js"></script>
+    <script src="../ASSETS/JS/auth.js"></script>
+    <script src="../ASSETS/JS/paciente_app.js"></script>
 </body>
 </html>

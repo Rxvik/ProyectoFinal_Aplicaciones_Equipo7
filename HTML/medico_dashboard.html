@@ -47,7 +47,7 @@
             </nav>
 
             <div class="sidebar-logout">
-                <a href="login.html">
+                <a href="login.html" id="logout-btn">
                     <span>Cerrar Sesión</span>
                 </a>
             </div>
@@ -61,30 +61,30 @@
                 </div>
                 <div class="navbar-user">
                     <img src="https://via.placeholder.com/40" alt="Avatar de Médico">
-                    <span>Dr. Alan Torres</span>
+                    <span id="navbar-username">Dr. Alan Torres</span>
                 </div>
             </header>
 
             <main class="content-area">
                 
-                <h1 class="content-title">Bienvenido, Dr. Torres</h1>
+                <h1 class="content-title" id="medico-title">Bienvenido, Dr. Torres</h1>
 
                 <div class="stats-grid">
                     <div class="stat-card neumorph-card">
                         <span class="card-icon"> <img src="../ASSETS/img/doctor.svg" alt="doctor icon" class="doctor-img"> </span>
                         <h3>Próxima Cita</h3>
-                        <p class="stat-number" style="font-size: 1.5rem;">10:30 AM</p>
+                        <p class="stat-number" id="proxima-cita-hora" style="font-size: 1.5rem;">10:30 AM</p>
                         <span style="color: var(--text-color-light);">Paciente User</span>
                     </div>
                     <div class="stat-card neumorph-card">
                         <span class="card-icon"> <img src="../ASSETS/img/note.svg" alt="note icon" class="note-img"> </span>
                         <h3>Total de Citas (Hoy)</h3>
-                        <p class="stat-number">7</p>
+                        <p class="stat-number" id="citas-hoy-total">7</p>
                     </div>
                     <div class="stat-card neumorph-card">
                         <span class="card-icon"> <img src="../ASSETS/img/bandage.svg" alt="bandage icon" class="bandage-img"> </span>
                         <h3>Pacientes Atendidos</h3>
-                        <p class="stat-number">2 / 7</p>
+                        <p class="stat-number" id="citas-hoy-list">2 / 7</p>
                     </div>
                 </div>
 
@@ -118,6 +118,7 @@
             </main>
         </div>
     </div>
-<script type="module" src="/ASSETS/js/main.js"></script>
+    <script src="../ASSETS/JS/auth.js"></script>
+    <script src="../ASSETS/JS/medico_app.js"></script>
 </body>
 </html>

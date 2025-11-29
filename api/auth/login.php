@@ -12,7 +12,7 @@
 
     try {
         
-        $sql = "SELECT id_usuario, password_hash, rol FROM usuarios WHERE email = ?";
+        $sql = "SELECT id_usuario, password_hash, email, rol FROM usuarios WHERE email = ?";
         $consulta = $conexion->prepare($sql);
         $consulta->execute([$email]);
         
@@ -28,7 +28,8 @@
                 echo json_encode([
                     'status' => true, 
                     'message' => 'Bienvenido al sistema',
-                    'rol' => $usuario['rol']
+                    'rol' => $usuario['rol'],
+                    'email'   => $usuario['email']
                 ]);
                 
             } else {
