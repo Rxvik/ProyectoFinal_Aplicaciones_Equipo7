@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
     <div class="dashboard-layout">
@@ -64,7 +66,7 @@
 
             <header class="navbar">
                 <div class="navbar-search">
-                    
+
                 </div>
                 <div class="navbar-user">
                     <img src="" alt="Avatar de Admin">
@@ -76,55 +78,24 @@
 
                 <div class="content-header">
                     <h1 class="content-title">Gestión de Citas</h1>
-                    <button class="btn-primary" style="display: flex; align-items: center; gap: 8px;">
-                        <img src="../ASSETS/img/plus.png" alt="icon" style="width: 16px; height: 16px; filter: brightness(0) invert(1);">
-                        Agregar Cita
-                    </button>
                 </div>
 
                 <div class="neumorph-card table-container">
                     <table class="data-table">
                         <thead>
                             <tr>
+                                <th>ID Cita</th>
                                 <th>Paciente</th>
-                                <th>Médico</th>
+                                <th>Médico (Especialidad)</th>
                                 <th>Fecha y Hora</th>
                                 <th>Estado</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
 
-                        <tbody>
+                        <tbody id="citas-table-body">
                             <tr>
-                                <td>Paciente User</td>
-                                <td>Dr. Alan Torres</td>
-                                <td>18/11/2025 - 10:30 AM</td>
-                                <td><span class="badge pending">Pendiente</span></td>
-                                <td class="table-actions">
-                                    <button class="neumorph-btn-alt">Editar</button>
-                                    <button class="btn-danger">Cancelar</button>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>Maria López</td>
-                                <td>Dra. Elena Ruiz</td>
-                                <td>21/11/2025 - 09:00 AM</td>
-                                <td><span class="badge pending">Pendiente</span></td>
-                                <td class="table-actions">
-                                    <button class="neumorph-btn-alt">Editar</button>
-                                    <button class="btn-danger">Cancelar</button>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>Juan Pérez</td>
-                                <td>Dr. Carlos Mena</td>
-                                <td>15/11/2025 - 11:00 AM</td>
-                                <td><span class="badge completed">Completada</span></td>
-                                <td class="table-actions">
-                                    <button class="neumorph-btn-alt">Ver Detalles</button>
-                                </td>
+                                <td colspan="6" id="loading-message" style="text-align: center;">Cargando citas...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -133,7 +104,56 @@
             </main>
         </div>
     </div>
+
+    <div id="cita-modal" class="modal">
+        <div class="modal-content neumorph-card">
+            <span class="close-btn">&times;</span>
+            <h2 id="modal-title">Editar Cita</h2>
+
+            <form id="cita-form" class="neumorph-form">
+                <input type="hidden" id="cita-id-edit">
+
+                <div class="form-group-neumorph">
+                    <label for="paciente-name">Paciente</label>
+                    <input type="text" id="paciente-name" readonly>
+                </div>
+
+                <div class="form-group-neumorph">
+                    <label for="medico-select">Médico</label>
+                    <select id="medico-select" required>
+                        <option value="">Cargando médicos...</option>
+                    </select>
+                </div>
+
+                <div class="form-group-neumorph">
+                    <label for="fecha-cita">Fecha</label>
+                    <input type="date" id="fecha-cita" required>
+                </div>
+
+                <div class="form-group-neumorph">
+                    <label for="hora-cita">Hora</label>
+                    <input type="time" id="hora-cita" required>
+                </div>
+
+                <div class="form-group-neumorph">
+                    <label for="estado-select">Estado</label>
+                    <select id="estado-select" required>
+                        <option value="pendiente">Pendiente</option>
+                        <option value="confirmada">Confirmada</option>
+                        <option value="completada">Completada</option>
+                        <option value="cancelada">Cancelada</option>
+                    </select>
+                </div>
+
+                <button type="submit" id="save-cita-btn" class="btn-primary"
+                    style="margin-top: 20px; width: 100%;">Guardar Cambios</button>
+            </form>
+        </div>
+    </div>
+    </div>
+    </div>
     <script src="../ASSETS/JS/auth.js"></script>
     <script src="../ASSETS/JS/admin_app.js"></script>
 </body>
+
 </html>

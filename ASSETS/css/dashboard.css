@@ -716,3 +716,62 @@ input:checked + .slider:before {
     width: 40px; 
     height: auto; 
 }
+
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 100; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5); 
+}
+
+.modal-content {
+    position: relative;
+    background-color: var(--neumorph-bg);
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 15px; 
+    width: 80%;
+    max-width: 450px;
+    box-shadow: 
+        5px 5px 10px var(--neumorph-dark-shadow),
+        -5px -5px 10px var(--neumorph-light-shadow);
+    animation-name: simpleFadeIn;
+    animation-duration: 0.3s;
+}
+
+@keyframes simpleFadeIn {
+    from {opacity: 0} 
+    to {opacity: 1}
+}
+
+.close-btn {
+    color: var(--text-color-medium);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 5px;
+    right: 15px;
+    transition: color 0.2s;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: var(--primary-blue);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#modal-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-color-dark);
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
