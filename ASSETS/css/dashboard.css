@@ -196,7 +196,7 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 2rem;
-    align-items: center;
+    align-items: stretch;
 }
 
 .stat-card {
@@ -220,6 +220,17 @@ body {
     font-weight: 700;
     color: var(--text-color-dark);
     margin: 0;
+}
+
+
+.stats-grid .stat-card {
+    height: 100%; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center; 
+    box-sizing: border-box;
+    min-height: 200px; 
 }
 
 .btn-primary {
@@ -733,15 +744,23 @@ input:checked + .slider:before {
     position: relative;
     background-color: var(--neumorph-bg);
     margin: 10% auto;
-    padding: 20px;
-    border-radius: 15px; 
+    padding: 2.5rem; /* Más espacio interno */
+    border-radius: 20px;
     width: 80%;
     max-width: 450px;
-    box-shadow: 
-        5px 5px 10px var(--neumorph-dark-shadow),
-        -5px -5px 10px var(--neumorph-light-shadow);
+    
+    
+    
+        
     animation-name: simpleFadeIn;
     animation-duration: 0.3s;
+}
+
+.modal-content h2 {
+    text-align: center;
+    color: var(--primary-blue);
+    margin-bottom: 1.5rem;
+    font-weight: 700;
 }
 
 @keyframes simpleFadeIn {
@@ -892,4 +911,38 @@ div:where(.swal2-container) button.swal2-styled.swal2-cancel {
 
 div:where(.swal2-icon) {
     border-color: var(--text-color-light) !important; 
+}
+
+select.input-neumorph {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23374151%22%20d%3D%22M287%2069.4a17.6%2017.6%0%200%200-13-5.4H18.4c-5%200-9.3%201.8-13%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2013l128%20128c3.6%203.6%207.8%205.4%2013%205.4s9.4-1.8%2013-5.4L287%2095.2c3.6-3.6%205.4-7.8%205.4-13%200-5-1.8-9.2-5.4-12.8z%22%2F%3E%3C%2Fsvg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 0.65em auto;
+    padding-right: 2.5rem; 
+}
+
+input[type="date"].input-neumorph,
+input[type="time"].input-neumorph {
+    appearance: none;
+    -webkit-appearance: none;
+    color: var(--text-color-medium);
+    font-family: 'Nunito', sans-serif;
+    position: relative;
+}
+
+input[type="date"].input-neumorph::-webkit-calendar-picker-indicator,
+input[type="time"].input-neumorph::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 0.6;
+    filter: invert(0.3); 
+    transition: opacity 0.2s;
+}
+
+input[type="date"].input-neumorph::-webkit-calendar-picker-indicator:hover,
+input[type="time"].input-neumorph::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
 }

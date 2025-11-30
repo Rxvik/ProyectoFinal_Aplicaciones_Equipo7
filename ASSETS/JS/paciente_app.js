@@ -1,25 +1,25 @@
+/* */
+
 let selectedSlot = null
 let selectedDate = null
 let selectedMedicoId = null
 
 document.addEventListener('DOMContentLoaded', () => {
-//Verificamos que tenemos el rol de paciente
     if (typeof checkRoleAccess === 'function') {
         checkRoleAccess('paciente'); 
     }
 
-    // Inicialización de todas las páginas
-    if (document.getElementById('perfil-form')) { // Para el Perfil
+    if (document.getElementById('perfil-form')) {
         loadPerfilPaciente();
         document.getElementById('perfil-form').addEventListener('submit', handlePerfilUpdate);
     }
 
-    if (document.getElementById('citas-proximas-list')) {   // Para Observar las Citas
+    if (document.getElementById('citas-proximas-list')) {
         loadCitasPaciente();
         setupCitasListeners();
     }
 
-    if (document.getElementById('select-medico')) { // Para agendar las citas
+    if (document.getElementById('select-medico')) {
         setupAgendarCitaFlujo();
     }
 
@@ -35,37 +35,65 @@ const updateNavbarUsername = () => {
     }
 }
 
-// Cargamos el dashboard en pacientes_dashboard
 const loadDashboardPaciente = async () => {
     try {
         const data = await fetchAPI('/citas/mis_citas.php', { method: 'GET' })
 
-        const infoElement = document.getElementById('dashboard-proxima-info')
-        const detalleElement = document.getElementById('dashboard-proxima-detalle')
+        // Elementos Dashboard original
+        const infoProxima = document.getElementById('dashboard-proxima-info')
+        const detalleProxima = document.getElementById('dashboard-proxima-detalle')
+        
+        // Elementos nuevos (si aplicaste el cambio anterior de 3 tarjetas)
+        const infoUltima = document.getElementById('dashboard-ultima-cita')
+        const detalleUltima = document.getElementById('dashboard-ultima-detalle')
 
-        if (infoElement && data.status && data.data.length > 0) {
+        if (data.status && data.data.length > 0) {
             const hoy = new Date()
+            
+            // 1. Lógica para Próxima Cita
             const proximasCitas = data.data.filter(c => 
                 c.estado !== 'cancelada' && c.estado !== 'completada' && new Date(`${c.fecha_cita}T${c.hora_cita}`) > hoy
             )
 
             if (proximasCitas.length > 0) {
-                const cita = proximasCitas[proximasCitas.length - 1] 
+                // Ordenar por fecha más cercana
+                proximasCitas.sort((a, b) => new Date(`${a.fecha_cita}T${a.hora_cita}`) - new Date(`${b.fecha_cita}T${b.hora_cita}`));
+                const cita = proximasCitas[0];
                 
                 const fechaFormat = new Date(cita.fecha_cita).toLocaleDateString('es-ES', { 
                     year: 'numeric', month: 'long', day: 'numeric' 
                 })
 
-                infoElement.textContent = `${fechaFormat} a las ${cita.hora_cita.substring(0, 5)}`
-                detalleElement.textContent = `Dr. ${cita.nombre_medico} (${cita.especialidad})`
-                
+                if(infoProxima) infoProxima.textContent = `${fechaFormat} - ${cita.hora_cita.substring(0, 5)}`
+                if(detalleProxima) detalleProxima.textContent = `Dr. ${cita.nombre_medico} (${cita.especialidad})`
             } else {
-                 infoElement.textContent = 'No tienes citas programadas.'
-                 if(detalleElement) detalleElement.textContent = '¡Agenda una ahora!'
+                 if(infoProxima) infoProxima.textContent = 'Sin citas pendientes'
+                 if(detalleProxima) detalleProxima.textContent = 'Agenda una nueva cita en el menú lateral.'
             }
-        } else if (infoElement) {
-             infoElement.textContent = 'No tienes citas programadas.'
-             if(detalleElement) detalleElement.textContent = '¡Agenda una ahora!'
+
+            // 2. Lógica para Última Consulta
+            const historialCitas = data.data.filter(c => 
+                c.estado === 'completada' || (new Date(`${c.fecha_cita}T${c.hora_cita}`) < hoy && c.estado !== 'cancelada')
+            )
+
+            if (historialCitas.length > 0 && infoUltima) {
+                historialCitas.sort((a, b) => new Date(`${b.fecha_cita}T${b.hora_cita}`) - new Date(`${a.fecha_cita}T${a.hora_cita}`));
+                const ultima = historialCitas[0];
+
+                const fechaUltima = new Date(ultima.fecha_cita).toLocaleDateString('es-ES', { 
+                    day: 'numeric', month: 'short' 
+                })
+                
+                if(infoUltima) infoUltima.textContent = `${fechaUltima} - ${ultima.estado.charAt(0).toUpperCase() + ultima.estado.slice(1)}`
+                if(detalleUltima) detalleUltima.textContent = `Con: Dr. ${ultima.nombre_medico}`
+            } else if (infoUltima) {
+                infoUltima.textContent = 'Sin historial'
+                if(detalleUltima) detalleUltima.textContent = 'Aún no has tenido consultas.'
+            }
+
+        } else if (infoProxima) {
+             infoProxima.textContent = 'Bienvenido'
+             if(detalleProxima) detalleProxima.textContent = 'Comienza agendando tu primera cita.'
         }
 
     } catch (error) {
@@ -73,7 +101,6 @@ const loadDashboardPaciente = async () => {
     }
 }
 
-//Cargamos al paciente que tiene la sesion iniciada
 const loadPerfilPaciente = async () => {
     try {
         const data = await fetchAPI('/usuarios/obtener_perfil.php', { method: 'GET' })
@@ -86,7 +113,7 @@ const loadPerfilPaciente = async () => {
             localStorage.setItem('NOMBRE_USUARIO', data.usuario.nombre_completo) 
             updateNavbarUsername()
         } else {
-            alert('Error al cargar perfil: ' + data.message)
+            Swal.fire('Error', 'Error al cargar perfil: ' + data.message, 'error')
         }
 
     } catch (error) {
@@ -105,7 +132,7 @@ const handlePerfilUpdate = async (e) => {
         confirm_password: form.confirm_password.value,
     }
     if (dataToSend.new_password !== dataToSend.confirm_password) {
-        alert('Las nuevas contraseñas no coinciden.')
+        Swal.fire('Atención', 'Las nuevas contraseñas no coinciden.', 'warning')
         return
     }
     
@@ -117,14 +144,14 @@ const handlePerfilUpdate = async (e) => {
         })
 
         if (result.status) {
-            alert(result.message || 'Perfil actualizado con éxito.')
+            await Swal.fire('Actualizado', result.message || 'Perfil actualizado con éxito.', 'success')
             window.location.reload() 
         } else {
-            alert(result.message || 'Error al actualizar el perfil.')
+            Swal.fire('Error', result.message || 'Error al actualizar el perfil.', 'error')
         }
 
     } catch (error) {
-        alert(`Fallo en la actualización: ${error.message}`)
+        Swal.fire('Error', `Fallo en la actualización: ${error.message}`, 'error')
     }
 }
 
@@ -138,7 +165,7 @@ const createCitaCard = (cita, isPast = false) => {
     const hora = cita.hora_cita.substring(0, 5)
 
     const actionButton = isPast || estadoDisplay === 'Cancelada' || estadoDisplay === 'Completada'
-        ? `<button class="neumorph-btn-alt" style="color: var(--text-color-medium); text-transform: capitalize;">${estadoDisplay}</button>`
+        ? `<button class="neumorph-btn-alt" style="color: var(--text-color-medium); text-transform: capitalize; cursor: default;">${estadoDisplay}</button>`
         : `<button class="btn-danger cancelar-cita" data-cita-id="${cita.id_cita}">Cancelar</button>`
 
     return `
@@ -201,26 +228,34 @@ const loadCitasPaciente = async () => {
 }
 
 const handleCancelacionCita = async (citaId) => {
-    if (!confirm('¿Estás seguro de que deseas cancelar esta cita?')) {
-        return
-    }
+    const result = await Swal.fire({
+        title: '¿Estás seguro?',
+        text: "¿Deseas cancelar esta cita?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, cancelar',
+        cancelButtonText: 'No',
+        reverseButtons: true
+    });
+
+    if (!result.isConfirmed) return
 
     try {
-        const result = await fetchAPI('/citas/cancelar.php', {
+        const apiResult = await fetchAPI('/citas/cancelar.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id_cita: citaId }) 
         })
 
-        if (result.status) {
-            alert(result.message || 'Cita cancelada correctamente.')
+        if (apiResult.status) {
+            Swal.fire('Cancelada', apiResult.message || 'Cita cancelada correctamente.', 'success')
             loadCitasPaciente() 
         } else {
-            alert(result.message || 'Error al cancelar la cita.')
+            Swal.fire('Error', apiResult.message || 'Error al cancelar la cita.', 'error')
         }
 
     } catch (error) {
-        alert(`Fallo en la cancelación: ${error.message}`)
+        Swal.fire('Error', `Fallo en la cancelación: ${error.message}`, 'error')
     }
 }
 
@@ -233,17 +268,6 @@ const setupCitasListeners = () => {
             }
         }
     })
-}
-
-
-// Obtenemos la fecha actual
-const getTodayDate = () => {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const day = String(today.getDate()).padStart(2, '0');
-    
-    return `${year}-${month}-${day}`;
 }
 
 const setupAgendarCitaFlujo = async () => {
@@ -337,21 +361,17 @@ const loadMedicos = async (selectElement) => {
             }
             
         } else {
-             selectElement.innerHTML = '<option value="" disabled selected>Error: Datos no válidos de la API</option>'
+             selectElement.innerHTML = '<option value="" disabled selected>Error: Datos no válidos</option>'
         }
     } catch (error) {
         console.error('Error al cargar médicos:', error)
-        selectElement.innerHTML = '<option value="" disabled selected>Fallo de conexión. Revisa la ruta.</option>'
+        selectElement.innerHTML = '<option value="" disabled selected>Fallo de conexión</option>'
     }
-}
-
-const validateAndEnableConfirm = () => {
-    // Esta función ya no es necesaria con el calendario, pero se deja si se quiere usar validación extra
 }
 
 const handleAgendarCita = async () => {
     if (!selectedDate || !selectedSlot || !selectedMedicoId) {
-        alert('Debes seleccionar un médico, una fecha y una hora.')
+        Swal.fire('Faltan datos', 'Debes seleccionar un médico, una fecha y una hora.', 'warning')
         return
     }
 
@@ -369,12 +389,12 @@ const handleAgendarCita = async () => {
         })
 
         if (result.status) {
-            alert(result.message || '¡Cita agendada con éxito!')
+            await Swal.fire('¡Agendada!', result.message || 'Cita agendada con éxito.', 'success')
             window.location.href = 'paciente_miscitas.html' 
         } else {
-            alert(result.message || 'Error al agendar la cita. Verifica el horario y disponibilidad.')
+            Swal.fire('Error', result.message || 'Error al agendar la cita. Verifica el horario.', 'error')
         }
     } catch (error) {
-        alert(`Fallo en el agendamiento: ${error.message}`)
+        Swal.fire('Error', `Fallo en el agendamiento: ${error.message}`, 'error')
     }
 }
