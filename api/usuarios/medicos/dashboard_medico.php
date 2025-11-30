@@ -33,19 +33,17 @@
         $total_hoy = 0;
         $total_completadas = 0;
         $proxima_cita = null;
-        $fecha_hoy = date('Y-m-d');
-
+        
         foreach ($todas_las_citas as $cita) {
-            if ($cita['fecha_cita'] === $fecha_hoy && $cita['estado'] !== 'cancelada') {
-                $total_hoy++;
+            if ($cita['fecha_cita'] === $fecha_hoy) {
+                if ($cita['estado'] !== 'cancelada') $total_hoy++;
+                if ($cita['estado'] === 'completada') $total_completadas_hoy++;
             }
 
-            if ($cita['fecha_cita'] === $fecha_hoy && $cita['estado'] === 'completada') {
-                $total_completadas++;
-            }
-
-            if ($proxima_cita === null && $cita['estado'] === 'pendiente') {
-                if ($cita['fecha_cita'] >= $fecha_hoy) {
+            if ($proxima_cita === null) {
+                if (($cita['estado'] === 'pendiente' || $cita['estado'] === 'confirmada') && 
+                    $cita['fecha_cita'] >= $fecha_hoy) {
+                    
                     $proxima_cita = $cita;
                 }
             }

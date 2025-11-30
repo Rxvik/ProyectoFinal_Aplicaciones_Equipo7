@@ -81,7 +81,7 @@
         }
 
         $sql_insertar = "INSERT INTO citas (id_paciente, id_medico, fecha_cita, hora_cita, estado) 
-                        VALUES (?, ?, ?, ?, 'pendiente')";
+                        VALUES (?, ?, ?, ?, 'confirmada')";
         
         $consulta_insertar = $conexion->prepare($sql_insertar);
         $consulta_insertar->execute([$id_paciente, $id_medico, $fecha_cita, $hora_cita]);

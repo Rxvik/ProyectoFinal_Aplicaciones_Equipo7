@@ -42,6 +42,41 @@
                 echo json_encode(['status' => true, 'message' => 'Paciente eliminado correctamente']);
                 break;
 
+            case 'crear':
+                if (empty($datos_recibidos['nombre']) || empty($datos_recibidos['email']) || empty($datos_recibidos['password'])) {
+                    throw new Exception("Faltan datos obligatorios (Nombre, Email o Contraseña)");
+                }
+
+                $sql_verificar = "SELECT id_usuario FROM usuarios WHERE email = ?";
+                $consulta_verificar = $conexion->prepare($sql_verificar);
+                $consulta_verificar->execute([$datos_recibidos['email']]);
+
+                if ($consulta_verificar->rowCount() > 0) {
+                    throw new Exception("El correo electrónico ya está registrado");
+                }
+
+                $conexion->beginTransaction();
+
+                $password_encriptada = password_hash($datos_recibidos['password'], PASSWORD_DEFAULT);
+                
+                $sql_usuario = "INSERT INTO usuarios (email, password_hash, rol) VALUES (?, ?, 'paciente')";
+                $consulta_usuario = $conexion->prepare($sql_usuario);
+                $consulta_usuario->execute([$datos_recibidos['email'], $password_encriptada]);
+                
+                $id_nuevo_usuario = $conexion->lastInsertId();
+
+                $sql_paciente = "INSERT INTO pacientes (id_usuario, nombre_completo, telefono) VALUES (?, ?, ?)";
+                $consulta_paciente = $conexion->prepare($sql_paciente);
+                $consulta_paciente->execute([
+                    $id_nuevo_usuario, 
+                    $datos_recibidos['nombre'], 
+                    $datos_recibidos['telefono'] ?? null
+                ]);
+
+                $conexion->commit();
+                echo json_encode(['status' => true, 'message' => 'Paciente registrado correctamente']);
+                break;   
+
             default:
                 throw new Exception("Acción no válida");
         }

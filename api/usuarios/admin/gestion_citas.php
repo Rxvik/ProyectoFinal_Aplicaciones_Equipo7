@@ -1,11 +1,9 @@
 <?php
-    
     require_once '../../config/headers.php';
     require_once '../../config/db.php';
     require_once '../../config/verificar_admin.php';
 
     $datos_recibidos = json_decode(file_get_contents('php://input'), true);
-
     $accion = $datos_recibidos['accion'] ?? $_GET['accion'] ?? 'listar';
 
     try {
@@ -27,15 +25,45 @@
                 echo json_encode(['status' => true, 'data' => $consulta->fetchAll()]);
                 break;
 
+            case 'crear':
+                if (empty($datos_recibidos['id_paciente']) || empty($datos_recibidos['id_medico']) || 
+                    empty($datos_recibidos['fecha_cita']) || empty($datos_recibidos['hora_cita'])) {
+                    throw new Exception("Faltan datos (paciente, médico, fecha u hora)");
+                }
+
+                $sql_verificar = "SELECT id_cita FROM citas 
+                                WHERE id_medico = ? AND fecha_cita = ? AND hora_cita = ? AND estado != 'cancelada'";
+                $check = $conexion->prepare($sql_verificar);
+                $check->execute([$datos_recibidos['id_medico'], $datos_recibidos['fecha_cita'], $datos_recibidos['hora_cita']]);
+
+                if ($check->rowCount() > 0) {
+                    echo json_encode(['status' => false, 'message' => 'Horario ocupado']);
+                    exit;
+                }
+
+                $sql_insertar = "INSERT INTO citas (id_paciente, id_medico, fecha_cita, hora_cita, estado) 
+                                VALUES (?, ?, ?, ?, 'confirmada')";
+                
+                $consulta_insertar = $conexion->prepare($sql_insertar);
+                $consulta_insertar->execute([
+                    $datos_recibidos['id_paciente'], 
+                    $datos_recibidos['id_medico'], 
+                    $datos_recibidos['fecha_cita'],
+                    $datos_recibidos['hora_cita']  
+                ]);
+
+                echo json_encode(['status' => true, 'message' => 'Cita creada correctamente por el Administrador']);
+                break;
+
             case 'editar':
                 if (empty($datos_recibidos['id_cita'])) {
                     throw new Exception("Falta el ID de la cita");
                 }
 
                 $sql_actual = "SELECT * FROM citas WHERE id_cita = ?";
-                $$consulta = $conexion->prepare($sql_actual);
-                $$consulta->execute([$datos_recibidos['id_cita']]);
-                $cita_actual = $$consulta->fetch();
+                $consulta = $conexion->prepare($sql_actual);
+                $consulta->execute([$datos_recibidos['id_cita']]);
+                $cita_actual = $consulta->fetch();
 
                 if (!$cita_actual) throw new Exception("Cita no encontrada");
 
@@ -46,8 +74,8 @@
 
                 $sql_actualizar = "UPDATE citas SET id_medico = ?, fecha_cita = ?, hora_cita = ?, estado = ? 
                                 WHERE id_cita = ?";
-                $$consulta_actualizar = $conexion->prepare($sql_actualizar);
-                $$consulta_actualizar->execute([$nuevo_medico, $nueva_fecha, $nueva_hora, $nuevo_estado, $datos_recibidos['id_cita']]);
+                $consulta_actualizar = $conexion->prepare($sql_actualizar);
+                $consulta_actualizar->execute([$nuevo_medico, $nueva_fecha, $nueva_hora, $nuevo_estado, $datos_recibidos['id_cita']]);
 
                 echo json_encode(['status' => true, 'message' => 'Cita actualizada correctamente']);
                 break;

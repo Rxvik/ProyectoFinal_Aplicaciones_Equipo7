@@ -17,18 +17,19 @@
         }
 
         $id_paciente = $paciente['id_paciente'];
+        $fecha_hoy = date('Y-m-d');
 
         $sql_proxima = "SELECT c.fecha_cita, c.hora_cita, m.nombre_completo as medico
                         FROM citas c
                         INNER JOIN medicos m ON c.id_medico = m.id_medico
                         WHERE c.id_paciente = ? 
-                        AND c.estado = 'pendiente'
-                        AND CONCAT(c.fecha_cita, ' ', c.hora_cita) >= NOW() 
+                        AND c.estado IN ('pendiente', 'confirmada')
+                        AND c.fecha_cita >= ? 
                         ORDER BY c.fecha_cita ASC, c.hora_cita ASC
                         LIMIT 1";
 
         $consulta_prox = $conexion->prepare($sql_proxima);
-        $consulta_prox->execute([$id_paciente]);
+        $consulta_prox->execute([$id_paciente, $fecha_hoy]);
         $proxima_cita = $consulta_prox->fetch();
 
         echo json_encode([
