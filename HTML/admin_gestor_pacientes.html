@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,12 +12,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
     <div class="dashboard-layout">
 
         <aside class="sidebar">
-            
+
             <div class="sidebar-logo">
                 <img src="../ASSETS/img/logo.svg" alt="Logo Papuclinica" class="papuclinica-logo-img">
                 <span>Papuclinica</span>
@@ -64,21 +66,22 @@
 
             <header class="navbar">
                 <div class="navbar-search">
-                    <input type="text" placeholder="Buscar...">
                 </div>
                 <div class="navbar-user">
-                    <img src="https://via.placeholder.com/40" alt="Avatar de Admin">
+                    <img src="" alt="Avatar de Admin">
                     <span id="navbar-username">Admin User</span>
                 </div>
             </header>
 
             <main class="content-area">
-                
+
                 <div class="content-header">
                     <h1 class="content-title">Gestión de Pacientes</h1>
-                    <button class="btn-primary" style="display: flex; align-items: center; gap: 8px;">
-                        <img src="../ASSETS/img/plus.png" alt="icon" style="width: 16px; height: 16px; filter: brightness(0) invert(1);">
-                        Agregar Cita
+                    <button id="btn-agregar-paciente" class="btn-primary"
+                        style="display: flex; align-items: center; gap: 8px;">
+                        <img src="../ASSETS/img/plus.png" alt="icon"
+                            style="width: 16px; height: 16px; filter: brightness(0) invert(1);">
+                        Agregar Paciente
                     </button>
                 </div>
 
@@ -94,26 +97,9 @@
                             </tr>
                         </thead>
 
-                        <tbody>
+                        <tbody id="pacientes-table-body">
                             <tr>
-                                <td>Paciente User</td>
-                                <td>paciente@mail.com</td>
-                                <td>462 999 8888</td>
-                                <td>15/11/2025</td>
-                                <td class="table-actions">
-                                    <button class="neumorph-btn-alt">Editar</button>
-                                    <button class="btn-danger">Eliminar</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Maria López</td>
-                                <td>maria.lopez@mail.com</td>
-                                <td>477 111 2222</td>
-                                <td>14/11/2025</td>
-                                <td class="table-actions">
-                                    <button class="neumorph-btn-alt">Editar</button>
-                                    <button class="btn-danger">Eliminar</button>
-                                </td>
+                                <td colspan="5" style="text-align: center;">Cargando Pacientes...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -127,4 +113,5 @@
     <script src="../ASSETS/JS/auth.js"></script>
     <script src="../ASSETS/JS/admin_app.js"></script>
 </body>
+
 </html>

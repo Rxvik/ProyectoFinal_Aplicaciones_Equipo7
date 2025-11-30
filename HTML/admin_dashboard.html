@@ -1,22 +1,24 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Papuclinica</title>
-    
+
     <link rel="stylesheet" href="../ASSETS/css/dashboard.css">
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
     <div class="dashboard-layout">
 
         <aside class="sidebar">
-            
+
             <div class="sidebar-logo">
                 <img src="../ASSETS/img/logo.svg" alt="Logo Papuclinica" class="papuclinica-logo-img">
                 <span>Papuclinica</span>
@@ -53,7 +55,7 @@
             </nav>
 
             <div class="sidebar-logout">
-                 <a href="login.html" id="logout-btn">
+                <a href="login.html" id="logout-btn">
                     <span>Cerrar Sesión</span>
                 </a>
             </div>
@@ -63,45 +65,50 @@
 
             <header class="navbar">
                 <div class="navbar-search">
-                    <input type="text" placeholder="Buscar...">
+                 
                 </div>
                 <div class="navbar-user">
-                    <img src="https://via.placeholder.com/40" alt="Avatar de Usuario">
+                    <img src="" alt="Avatar de Usuario">
                     <span id="navbar-username">Admin User</span>
                 </div>
             </header>
 
             <main class="content-area">
                 <h1 class="content-title">Dashboard - Administrador</h1>
-                
+
                 <div class="stats-grid">
                     <div class="stat-card neumorph-card">
-                        <span class="card-icon"> <img src="../ASSETS/img/calendar.svg" alt="note icon" class="calendar-img"> </span>
+                        <span class="card-icon"> <img src="../ASSETS/img/calendar.svg" alt="note icon"
+                                class="calendar-img"> </span>
                         <h3>Citas Totales (Hoy)</h3>
-                        <p class="stat-number">14</p>
+                        <p class="stat-number" id="citas-hoy-count">#</p>
                     </div>
                     <div class="stat-card neumorph-card">
-                        <span class="card-icon"> <img src="../ASSETS/img/doctor.svg" alt="doctor icon" class="doctor-img"> </span>
+                        <span class="card-icon"> <img src="../ASSETS/img/doctor.svg" alt="doctor icon"
+                                class="doctor-img"> </span>
                         <h3>Médicos Activos</h3>
-                        <p class="stat-number">8</p>
+                        <p class="stat-number" id="medicos-activos-count">#</p>
                     </div>
                     <div class="stat-card neumorph-card">
-                        <span class="card-icon"> <img src="../ASSETS/img/bandage.svg" alt="bandage icon" class="bandage-img"> </span>
-                        <h3>Nuevos Pacientes</h3>
-                        <p class="stat-number">5</p>
+                        <span class="card-icon"> <img src="../ASSETS/img/bandage.svg" alt="bandage icon"
+                                class="bandage-img"> </span>
+                        <h3>Pacientes Totales</h3>
+                        <p class="stat-number" id="pacientes-total-count">#</p>
                     </div>
                     <div class="stat-card neumorph-card">
-                        <span class="card-icon"> <img src="../ASSETS/img/note.svg" alt="note icon" class="note-img"> </span>
-                        <h3>Citas Completadas</h3>
-                        <p class="stat-number">3</p>
+                        <span class="card-icon"> <img src="../ASSETS/img/note.svg" alt="note icon" class="note-img">
+                        </span>
+                        <h3>Citas Completadas (Histórico)</h3>
+                        <p class="stat-number" id="citas-completadas-count">#</p>
                     </div>
                 </div>
-                
-                </main>
+
+            </main>
         </div>
 
     </div>
     <script src="../ASSETS/JS/auth.js"></script>
     <script src="../ASSETS/JS/admin_app.js"></script>
 </body>
+
 </html>
