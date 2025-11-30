@@ -152,21 +152,6 @@ const setupMedicoDashboard = async () => {
  @param {string} fin - Hora de fin predeterminada
  @returns {string} HTML del selector de horario
 */
-const createHorarioSelector = (diaNombre, diaCampo, inicio = '', fin = '') => {
-    return `
-        <div class="horario-item">
-            <label class="dia-label">
-                <input type="checkbox" name="dias_laborables" value="${diaCampo}" ${inicio ? 'checked' : ''}>
-                ${diaNombre}
-            </label>
-            <div class="horario-inputs">
-                <input type="time" name="${diaCampo}_inicio" value="${inicio}"> 
-                <span>a</span>
-                <input type="time" name="${diaCampo}_fin" value="${fin}">
-            </div>
-        </div>
-    `
-}
 
 /**
 @param {Array<Object>} horariosDB - obtenemos los horarios
@@ -185,33 +170,46 @@ const renderHorariosForm = (horariosDB = []) => {
     let html = ''
     DIAS_SEMANA.forEach(dia => {
         const horarioExistente = horariosMap[dia.campo]
-        html += createHorarioSelector(
-            dia.nombre, 
-            dia.campo, 
-            horarioExistente ? horarioExistente.inicio : '',
-            horarioExistente ? horarioExistente.fin : ''
-        )
+        const isChecked = !!horarioExistente
+        const valInicio = horarioExistente ? horarioExistente.inicio : ''
+        const valFin = horarioExistente ? horarioExistente.fin : ''
+
+        html += `
+            <div class="horario-item">
+                <div class="dia-control">
+                    <label class="switch">
+                        <input type="checkbox" class="dia-check" name="dias_laborables" value="${dia.campo}" ${isChecked ? 'checked' : ''}>
+                        <span class="slider"></span>
+                    </label>
+                    <span class="day-name">${dia.nombre}</span>
+                </div>
+
+                <div class="time-inputs ${isChecked ? '' : 'disabled'}" id="inputs-${dia.campo}">
+                    <input type="time" name="${dia.campo}_inicio" value="${valInicio}" class="input-neumorph">
+                    <span style="font-weight:bold; color:var(--text-color-light); margin: 0 5px;">a</span>
+                    <input type="time" name="${dia.campo}_fin" value="${valFin}" class="input-neumorph">
+                </div>
+            </div>
+        `
     })
 
     container.innerHTML = html
-    container.querySelectorAll('.horario-item input[type="checkbox"]').forEach(checkbox => {
-        const inicioInput = checkbox.parentNode.parentNode.querySelector(`input[name="${checkbox.value}_inicio"]`)
-        const finInput = checkbox.parentNode.parentNode.querySelector(`input[name="${checkbox.value}_fin"]`)
-    
-    const toggleInputs = () => {
-    const checked = checkbox.checked
-    inicioInput.readOnly = !checked
-    finInput.readOnly = !checked
-    inicioInput.style.opacity = !checked ? '0.5' : '1'
-    finInput.style.opacity = !checked ? '0.5' : '1'
-
-    if (!checked) {
-        inicioInput.value = ''
-        finInput.value = ''
-    }
-}
-        checkbox.addEventListener('change', toggleInputs)
-        toggleInputs()
+    container.querySelectorAll('.dia-check').forEach(checkbox => {
+        checkbox.addEventListener('change', (e) => {
+            const inputsDiv = document.getElementById(`inputs-${e.target.value}`)
+            const inputs = inputsDiv.querySelectorAll('input')
+            
+            if (e.target.checked) {
+                inputsDiv.classList.remove('disabled')
+                inputs.forEach(input => input.disabled = false)
+            } else {
+                inputsDiv.classList.add('disabled')
+                inputs.forEach(input => {
+                    input.disabled = true
+                    input.value = ''
+                })
+            }
+        })
     })
 }
 
@@ -311,7 +309,7 @@ const renderPacientesTable = (pacientes) => {
     if (!tableBody) return
 
     if (pacientes.length === 0) {
-        tableBody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Aún no tienes pacientes registrados en el sistema.</td></tr>'
+        tableBody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Aún no tienes pacientes registrados en el sistema.</td></tr>'
         return
     }
     const html = pacientes.map(p => {
@@ -323,9 +321,6 @@ const renderPacientesTable = (pacientes) => {
                 <td>${p.email}</td>
                 <td>${telefono}</td>
                 <td>${ultimaCita}</td>
-                <td>
-                    <button class="btn-secondary-sm" data-id="${p.id_paciente}">Ver Historial</button>
-                </td>
             </tr>
         `
     }).join('')
@@ -335,7 +330,7 @@ const renderPacientesTable = (pacientes) => {
 const loadPacientes = async () => {
     const tableBody = document.getElementById('pacientes-table-body')
     if (tableBody) {
-        tableBody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Cargando pacientes...</td></tr>'
+        tableBody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Cargando pacientes...</td></tr>'
     }
     try {
         const result = await fetchAPI(`usuarios/medicos/mis_pacientes.php`, { method: 'GET' })
@@ -359,111 +354,73 @@ const setupMedicoPacientes = async () => {
 
 ///////////////////////////////////////////////
 // funcionalidad de la Agenda (medico_agenda.html)
-/**
-Función para renderizar la lista de citas en la tabla de la agenda.
-@param {Array<Object>} citas - Array de citas desde el API (formato FullCalendar).
-*/
-const renderAgendaTable = (citas) => {
-    const tableBody = document.getElementById('citas-agenda-table-body')
-    if (!tableBody) return
-    if (citas.length === 0) {
-        tableBody.innerHTML = '<tr><td colspan="4" style="text-align: center;">No tienes citas programadas pendientes.</td></tr>'
-        return
-    }
-    const html = citas.map(cita => {
-        const [fecha, horaCompleta] = cita.start.split('T')
-        const hora = horaCompleta ? horaCompleta.substring(0, 5) : 'N/A'
-        const accionHTML = `
-            <button class="btn-cancelar-sm cancelar-cita-btn" data-cita-id="${cita.id}">Cancelar</button>
-            <button class="btn-primary-sm completar-cita-btn" data-cita-id="${cita.id}">Completar</button>
-        `
-        return `
-            <tr>
-                <td>${fecha}</td>
-                <td>${hora}</td>
-                <td>${cita.title}</td>
-                <td>${accionHTML}</td>
-            </tr>
-        `
-    }).join('')
-    tableBody.innerHTML = html
-    document.querySelectorAll('.cancelar-cita-btn').forEach(button => {
-        button.addEventListener('click', handleCambiarEstado)
-    })
-    
-    document.querySelectorAll('.completar-cita-btn').forEach(button => {
-        button.addEventListener('click', handleCambiarEstado)
-    })
-}
+const setupMedicoAgenda = async () => {
+    const calendarEl = document.getElementById('calendar')
+    if (!calendarEl) return
 
-const loadAgenda = async () => {
-    const tableBody = document.getElementById('citas-agenda-table-body')
-    
-    if (tableBody) {
-        tableBody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Cargando agenda...</td></tr>'
-    }
     try {
-        const result = await fetchAPI(`usuarios/medicos/agenda.php`, { method: 'GET' })
-        if (Array.isArray(result)) {
-            renderAgendaTable(result)
-        } else {
-            console.error("Error al cargar la agenda. Formato de datos inesperado:", result)
-            renderAgendaTable([]) 
-        }
-    } catch (error) {
-        console.error('Fallo de conexión al cargar la agenda:', error)
-        alert('Error de conexión al cargar la agenda. Ver consola.')
-        renderAgendaTable([])
-    }
-}
+        const citas = await fetchAPI('usuarios/medicos/agenda.php', { method: 'GET' })
 
-const handleCambiarEstado = async (e) => {
-    const button = e.target
-    const citaId = button.getAttribute('data-cita-id')
-    
-    let nuevoEstado = ''
-    let mensajeConfirmacion = ''
-
-    if (button.classList.contains('cancelar-cita-btn')) {
-        nuevoEstado = 'cancelada'
-        mensajeConfirmacion = `¿Estás seguro de que deseas CANCELAR la cita ID ${citaId}?`
-    } else if (button.classList.contains('completar-cita-btn')) {
-        nuevoEstado = 'completada'
-        mensajeConfirmacion = `¿Estás seguro de que deseas MARCAR como COMPLETADA la cita ID ${citaId}?`
-    } else {
-        return
-    }
-    if (!confirm(mensajeConfirmacion)) {
-        return
-    }
-    
-    button.disabled = true
-    button.textContent = '...' 
-    try {
-        const result = await fetchAPI('citas/cambiar_estado.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                id_cita: citaId, 
-                estado: nuevoEstado 
-            })
+        const calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            locale: 'es',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            height: 650,
+            events: citas,
+            
+            eventClick: function(info) {
+                const id = info.event.id
+                const paciente = info.event.title
+                const inicio = info.event.start.toLocaleString()
+                
+                Swal.fire({
+                    title: 'Gestionar Cita',
+                    html: `<p><b>Paciente:</b> ${paciente}</p><p><b>Fecha:</b> ${inicio}</p>`,
+                    icon: 'info',
+                    showDenyButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: 'Completar',
+                    denyButtonText: 'Cancelar Cita',
+                    cancelButtonText: 'Cerrar',
+                    confirmButtonColor: '#28a745',
+                    denyButtonColor: '#d33'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        cambiarEstadoCita(id, 'completada')
+                    } else if (result.isDenied) {
+                        cambiarEstadoCita(id, 'cancelada')
+                    }
+                })
+            }
         })
 
-        if (result.status) {
-            alert(result.message || `Cita marcada como ${nuevoEstado} con éxito.`)
-            await loadAgenda() 
-        } else {
-            alert(`Error: ${result.message || 'Respuesta de API inválida.'}`)
-        }
+        calendar.render()
+
     } catch (error) {
-        console.error('Error al cambiar estado de cita:', error)
-        alert(`Fallo en la conexión al servidor.`)
-    } finally {
-        button.disabled = false
-        button.textContent = (nuevoEstado === 'cancelada' ? 'Cancelar' : 'Completar')
+        console.error('Error cargando agenda:', error)
+        calendarEl.innerHTML = '<p class="text-center">No se pudieron cargar las citas.</p>'
     }
 }
 
-const setupMedicoAgenda = async () => {
-    await loadAgenda()
+const cambiarEstadoCita = async (id, estado) => {
+    try {
+        const res = await fetchAPI('citas/cambiar_estado.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id_cita: id, estado: estado })
+        })
+        
+        if(res.status) {
+            Swal.fire('Actualizado', `Cita ${estado}`, 'success')
+            setupMedicoAgenda() // Recargar calendario
+        } else {
+            Swal.fire('Error', res.message, 'error')
+        }
+    } catch (e) {
+        console.error(e)
+    }
 }

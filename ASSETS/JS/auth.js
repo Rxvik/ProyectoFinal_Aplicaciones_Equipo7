@@ -1,5 +1,5 @@
 
-const API_BASE_URL = 'http://localhost:8888/ProyectoFinal_Aplicaciones_Equipo7/api/'; // Api de php
+const API_BASE_URL = '../api/'; // Api de php
 const ROL_STORAGE_KEY = 'sistema_citas_session'; // variable donde se guardara el rol en localStorage
 const EMAIL_STORAGE_KEY = 'userEmail'; // variable donde se guardara el email en localStorage
 

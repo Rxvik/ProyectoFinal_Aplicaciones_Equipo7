@@ -128,6 +128,8 @@ const setupAdminReportes = async () => {
 // Gestor de Pacientes 
 const pacientesTableBody = document.getElementById('pacientes-table-body')
 const loadingMessage = document.getElementById('loading-message')
+const pacienteModal = document.getElementById('paciente-modal')
+const pacienteForm = document.getElementById('paciente-form')
 
 /**
 * Renderiza la lista de pacientes en la tabla.
@@ -228,8 +230,54 @@ const handlePacientesTableClick = (e) => {
     } 
 }
 
+const handleSavePaciente = async (e) => {
+    e.preventDefault()
+    
+    const formData = new FormData(pacienteForm)
+    const dataToSend = Object.fromEntries(formData)
+    dataToSend.accion = 'crear'
+
+    try {
+        const result = await fetchAPI('usuarios/admin/gestion_pacientes.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(dataToSend)
+        })
+
+        if (result.status) {
+            alert(result.message || 'Paciente registrado con éxito.')
+            pacienteModal.style.display = 'none'
+            pacienteForm.reset()
+            await loadPacientes()
+        } else {
+            alert('Error: ' + (result.message || 'Error desconocido.'))
+        }
+    } catch (error) {
+        console.error('Error al guardar paciente:', error)
+        alert('Fallo de conexión al guardar el paciente.')
+    }
+}
+
 const setupGestorPacientes = () => {
     loadPacientes()
+    
+    const addBtn = document.getElementById('btn-add-paciente')
+    if (addBtn && pacienteModal) {
+        addBtn.addEventListener('click', () => {
+            pacienteForm.reset()
+            pacienteModal.style.display = 'block'
+        })
+    }
+    
+    if (pacienteForm) {
+        pacienteForm.addEventListener('submit', handleSavePaciente)
+    }
+    
+    if (pacienteModal) {
+        const closeBtn = pacienteModal.querySelector('.close-btn')
+        if (closeBtn) closeBtn.addEventListener('click', () => pacienteModal.style.display = 'none')
+        window.addEventListener('click', (e) => { if (e.target === pacienteModal) pacienteModal.style.display = 'none' })
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////
@@ -238,6 +286,7 @@ const citasTableBody = document.getElementById('citas-table-body')
 const citaModal = document.getElementById('cita-modal')
 const citaForm = document.getElementById('cita-form')
 const medicoSelect = document.getElementById('medico-select')
+const pacienteSelect = document.getElementById('select-paciente')
 
 /**
  * @param {string} estado - ya sea cancelada, completada, Confirmada o pendiente
@@ -334,7 +383,22 @@ const loadMedicosParaEdicion = async (currentMedicoId = null) => {
     }
 }
 
-
+const loadPacientesParaCita = async () => {
+    if (!pacienteSelect) return
+    pacienteSelect.innerHTML = '<option value="">Cargando pacientes...</option>'
+    try {
+        const data = await fetchAPI('usuarios/admin/gestion_pacientes.php?accion=listar', { method: 'GET' })
+        if (data.status && Array.isArray(data.data)) {
+            let optionsHtml = '<option value="">-- Selecciona un Paciente --</option>'
+            data.data.forEach(p => {
+                optionsHtml += `<option value="${p.id_paciente}">${p.nombre_completo}</option>`
+            })
+            pacienteSelect.innerHTML = optionsHtml
+        }
+    } catch (error) {
+        console.error('Error cargando pacientes:', error)
+    }
+}
 
 //Carga las citas de lapi y llama a la función de renderizado.
 const loadCitas = async () => {
@@ -360,7 +424,7 @@ const loadCitas = async () => {
 }
 
 /**
- *  se abre el modal de edicion para las citas y carga los datos de la cita que queremos editar
+ * se abre el modal de edicion para las citas y carga los datos de la cita que queremos editar
  * @param {number} idCita - ID de la cita a editar.
  */
 const openCitaModal = async (idCita) => {
@@ -372,7 +436,6 @@ const openCitaModal = async (idCita) => {
         return
     }
 
-    const pacienteName = row.cells[1].textContent
     const medicoId = row.dataset.medicoId
     const [fechaStr, horaAMPM] = row.cells[3].textContent.split(' - ')
     const estado = row.cells[4].querySelector('.badge').textContent.toLowerCase()
@@ -381,14 +444,19 @@ const openCitaModal = async (idCita) => {
     const [day, month, year] = fechaStr.split('/')
     const fechaInput = `${year}-${month}-${day}`
     const horaInput = horaAMPM.replace(' AM', '').replace(' PM', '').slice(0, 5)
+    
     await loadMedicosParaEdicion(medicoId)
     
     // ids del formulacio de la cita para editar
     document.getElementById('cita-id-edit').value = idCita
-    document.getElementById('paciente-name').value = pacienteName
     document.getElementById('fecha-cita').value = fechaInput
     document.getElementById('hora-cita').value = horaInput
     document.getElementById('estado-select').value = estado
+
+    document.getElementById('modal-title').textContent = 'Editar Cita'
+    if(pacienteSelect) pacienteSelect.parentElement.style.display = 'none'
+    document.getElementById('paciente-name').parentElement.style.display = 'block'
+    document.getElementById('paciente-name').value = row.cells[1].textContent
     
     citaModal.style.display = 'block'
 }
@@ -401,18 +469,29 @@ const handleSaveCita = async (e) => {
     const fechaCita = document.getElementById('fecha-cita').value
     const horaCita = document.getElementById('hora-cita').value
     const estado = document.getElementById('estado-select').value
-    if (!idCita || !idMedico || !fechaCita || !horaCita || !estado) {
+    
+    const idPaciente = pacienteSelect ? pacienteSelect.value : null
+
+    if (!idMedico || !fechaCita || !horaCita) {
         alert('Todos los campos son obligatorios.')
         return
     }
     
+    const accion = idCita ? 'editar' : 'crear'
+    
+    if (accion === 'crear' && !idPaciente) {
+        alert('Debes seleccionar un paciente.')
+        return
+    }
+
     const dataToSend = {
-        accion: 'editar',
+        accion: accion,
         id_cita: idCita,
+        id_paciente: idPaciente,
         id_medico: idMedico,
         fecha_cita: fechaCita,
         hora_cita: horaCita,
-        estado: estado,
+        estado: estado || 'pendiente',
     }
     
     try {
@@ -423,15 +502,15 @@ const handleSaveCita = async (e) => {
         })
 
         if (result.status) {
-            alert(result.message || 'Cita actualizada con éxito.')
+            alert(result.message || 'Operación exitosa.')
             citaModal.style.display = 'none'
             await loadCitas()
         } else {
-            alert('Error al actualizar: ' + (result.message || 'Error desconocido.'))
+            alert('Error: ' + (result.message || 'Error desconocido.'))
         }
     } catch (error) {
-        console.error('Error al enviar formulario de edición:', error)
-        alert('Fallo de conexión al actualizar la cita.')
+        console.error('Error al enviar formulario:', error)
+        alert('Fallo de conexión.')
     }
 }
 
@@ -483,6 +562,22 @@ const handleCitasActionsClick = (e) => {
 //Inicializa la funcionalidad de Gestión de Citas.
 const setupGestorCitas = () => {
     loadCitas()
+    
+    const addBtn = document.getElementById('btn-add-cita')
+    if (addBtn && citaModal) {
+        addBtn.addEventListener('click', async () => {
+            document.getElementById('cita-form').reset()
+            document.getElementById('cita-id-edit').value = ''
+            document.getElementById('modal-title').textContent = 'Agendar Nueva Cita'
+            if(pacienteSelect) {
+                pacienteSelect.parentElement.style.display = 'block'
+                await loadPacientesParaCita()
+            }
+            document.getElementById('paciente-name').parentElement.style.display = 'none'
+            await loadMedicosParaEdicion()
+            citaModal.style.display = 'block'
+        })
+    }
     
     if (citaForm) {
         citaForm.addEventListener('submit', handleSaveCita) 

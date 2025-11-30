@@ -7,6 +7,8 @@
     <title>Agendar Cita - Papuclinica</title>
 
     <link rel="stylesheet" href="../ASSETS/css/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -88,23 +90,13 @@
                 <div id="horarios-wrapper" class="neumorph-card" style="padding: 2.5rem; margin-top: 2rem;">
                     <h2 class="section-title">Paso 2: Fecha y Hora</h2>
                     <p class="section-subtitle" style="color: var(--text-color-light); margin-top: -0.5rem;">
-                        Selecciona la fecha y hora que deseas.
+                        Selecciona un horario disponible en el calendario.
                     </p>
 
-                    <div class="horarios-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                        <div class="form-group-neumorph">
-                            <label for="input-fecha">Fecha</label>
-                            <input type="date" id="input-fecha" class="input-neumorph" required>
-                        </div>
-                        <div class="form-group-neumorph">
-                            <label for="input-hora">Hora</label>
-                            <input type="time" id="input-hora" class="input-neumorph" min="09:00" max="17:00"
-                                step="1800" required>
-                        </div>
-                    </div>
-
-                    <div id="horarios-grid">
-                    </div>
+                    <div id="calendar-paciente"></div>
+                    
+                    <input type="hidden" id="input-fecha">
+                    <input type="hidden" id="input-hora">
 
                     <button class="btn-primary" id="confirmar-cita-btn" style="width: 100%; margin-top: 2rem;" disabled>
                         Confirmar Cita

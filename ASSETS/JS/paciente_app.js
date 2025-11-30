@@ -251,20 +251,69 @@ const setupAgendarCitaFlujo = async () => {
     const confirmarBtn = document.getElementById('confirmar-cita-btn')
     const fechaInput = document.getElementById('input-fecha')
     const horaInput = document.getElementById('input-hora')
-    
-    if (fechaInput) {
-        fechaInput.min = getTodayDate();
-    }
-    
+    let calendarInstance = null
+
     await loadMedicos(medicoSelect)
     
-    medicoSelect.addEventListener('change', () => {
+    medicoSelect.addEventListener('change', async () => {
         selectedMedicoId = medicoSelect.value
-        validateAndEnableConfirm()
+        
+        if (!selectedMedicoId) return
+
+        const ocupacion = await fetchAPI(`citas/ocupacion_medico.php?id_medico=${selectedMedicoId}`, { method: 'GET' })
+        
+        const calendarEl = document.getElementById('calendar-paciente')
+        
+        if (calendarEl) {
+            if (calendarInstance) calendarInstance.destroy()
+            
+            calendarInstance = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'timeGridWeek',
+                locale: 'es',
+                slotDuration: '00:30:00', 
+                slotLabelInterval: '00:30', 
+                snapDuration: '00:30:00', 
+                slotMinTime: '08:00:00',
+                slotMaxTime: '20:00:00',
+                allDaySlot: false,
+                hiddenDays: [0],
+                height: 500,
+                events: ocupacion, 
+                
+                dateClick: function(info) {
+                    const eventoAnterior = calendarInstance.getEventById('seleccion-temporal')
+                    if (eventoAnterior) {
+                        eventoAnterior.remove()
+                    }
+
+                    calendarInstance.addEvent({
+                        id: 'seleccion-temporal',
+                        title: '✅ Seleccionado',
+                        start: info.dateStr,
+                        allDay: false,
+                        color: '#28a745', 
+                        display: 'block'
+                    })
+
+                    const [fecha, horaCompleta] = info.dateStr.split('T')
+                    const hora = horaCompleta.substring(0, 5)
+                    
+                    if(fechaInput) fechaInput.value = fecha
+                    if(horaInput) horaInput.value = hora
+                    
+                    selectedDate = fecha
+                    selectedSlot = hora
+
+                    if(confirmarBtn) {
+                        confirmarBtn.disabled = false
+                        confirmarBtn.textContent = "Confirmar Cita"
+                    }
+                }
+            })
+            calendarInstance.render()
+        }
     })
 
-    if (fechaInput) fechaInput.addEventListener('change', validateAndEnableConfirm)
-    if (horaInput) horaInput.addEventListener('change', validateAndEnableConfirm)
     if (confirmarBtn) confirmarBtn.addEventListener('click', handleAgendarCita)
 }
 
@@ -297,18 +346,7 @@ const loadMedicos = async (selectElement) => {
 }
 
 const validateAndEnableConfirm = () => {
-    const confirmarBtn = document.getElementById('confirmar-cita-btn')
-    const fechaInput = document.getElementById('input-fecha')
-    const horaInput = document.getElementById('input-hora')
-
-    selectedDate = fechaInput ? fechaInput.value : null
-    selectedSlot = horaInput ? horaInput.value : null
-
-    if (selectedMedicoId && selectedDate && selectedSlot) {
-        confirmarBtn.disabled = false
-    } else {
-        confirmarBtn.disabled = true
-    }
+    // Esta función ya no es necesaria con el calendario, pero se deja si se quiere usar validación extra
 }
 
 const handleAgendarCita = async () => {

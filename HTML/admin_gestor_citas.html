@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -78,6 +79,10 @@
 
                 <div class="content-header">
                     <h1 class="content-title">Gestión de Citas</h1>
+                    <button class="btn-primary" id="btn-add-cita" style="display: flex; align-items: center; gap: 8px;">
+                        <img src="../ASSETS/img/plus.png" alt="icon" style="width: 16px; height: 16px; filter: brightness(0) invert(1);">
+                        Agregar Cita
+                    </button>
                 </div>
 
                 <div class="neumorph-card table-container">
@@ -113,8 +118,15 @@
             <form id="cita-form" class="neumorph-form">
                 <input type="hidden" id="cita-id-edit">
 
+                <div class="form-group-neumorph" id="div-paciente-select" style="display: none;">
+                    <label for="select-paciente">Paciente</label>
+                    <select id="select-paciente" class="input-neumorph">
+                        <option value="">Cargando pacientes...</option>
+                    </select>
+                </div>
+
                 <div class="form-group-neumorph">
-                    <label for="paciente-name">Paciente</label>
+                    <label for="paciente-name">Paciente (Actual)</label>
                     <input type="text" id="paciente-name" readonly>
                 </div>
 
