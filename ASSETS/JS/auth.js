@@ -1,14 +1,7 @@
+const API_BASE_URL = '../api/';
+const ROL_STORAGE_KEY = 'sistema_citas_session';
+const EMAIL_STORAGE_KEY = 'userEmail';
 
-const API_BASE_URL = '../api/'; // Api de php
-const ROL_STORAGE_KEY = 'sistema_citas_session'; // variable donde se guardara el rol en localStorage
-const EMAIL_STORAGE_KEY = 'userEmail'; // variable donde se guardara el email en localStorage
-
-/**
- *Funcion para interactuar con la Api.
- * @param {string} endpoint - La ruta de la API (ej. '/auth/login.php').
- * @param {object} options - Opciones de la solicitud (method, body, headers).
- * @returns {Promise<object>}
- */
 const fetchAPI = async (endpoint, options = {}) => {
     try {
         const url = `${API_BASE_URL}${endpoint}`;
@@ -25,36 +18,36 @@ const fetchAPI = async (endpoint, options = {}) => {
 }
 
 const handleLogout = () => {
-    // eliminacion del localStorage
     localStorage.removeItem(ROL_STORAGE_KEY);
     localStorage.removeItem(EMAIL_STORAGE_KEY);
-
-    // volvemos al login sin ningun rol ni email
     window.location.href = 'login.html'
 }
 
-/**
- * Se ejecutara al cargar cualquier página del dashboard.
- * @param {string} requiredRole - El rol que debe tener el usuario para ver la página (admin, medico, paciente).
- */
-const checkRoleAccess = (requiredRole) => {
+const checkRoleAccess = async (requiredRole) => {
     const currentRole = localStorage.getItem(ROL_STORAGE_KEY);
 
     if (!currentRole) {
-        // Si no hay rol, no hay sesion entonces nos vamos al login.
-        alert('Sesión no encontrada. Por favor, inicia sesión.');
+        await Swal.fire({
+            icon: 'warning',
+            title: 'Sesión no encontrada',
+            text: 'Por favor, inicia sesión.',
+            confirmButtonText: 'Ir al Login'
+        });
         window.location.href = 'login.html';
         return;
     }
 
     if (currentRole !== requiredRole) {
-        // Si el rol es incorrecto, redirige al dashboard de su respectivo rol.
-        alert(`Acceso denegado. Redirigiendo a tu dashboard (${currentRole}).`);
+        await Swal.fire({
+            icon: 'error',
+            title: 'Acceso denegado',
+            text: `Redirigiendo a tu dashboard (${currentRole}).`
+        });
         window.location.href = `${currentRole}_dashboard.html`;
         return;
     }
 
-    const logoutBtn = document.getElementById('logout-btn') // evento para activar el cierre de sesion
+    const logoutBtn = document.getElementById('logout-btn')
     if (logoutBtn) {
         logoutBtn.addEventListener('click', (e) => {
             e.preventDefault()
@@ -85,9 +78,25 @@ const handleLogin = async (e) => {
         });
 
         if (data.status) {
-
             localStorage.setItem(ROL_STORAGE_KEY, data.rol);
             localStorage.setItem(EMAIL_STORAGE_KEY, data.email)
+
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 1500,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            });
+            
+            await Toast.fire({
+                icon: 'success',
+                title: 'Sesión iniciada correctamente'
+            });
 
             switch (data.rol) {
                 case 'admin':
@@ -100,14 +109,26 @@ const handleLogin = async (e) => {
                     window.location.href = 'paciente_dashboard.html';
                     break;
                 default:
-                    alert('Rol de usuario desconocido.');
-                    handleLogout(); // en caso de un error en el rol
+                    await Swal.fire({
+                        icon: 'error',
+                        title: 'Error de Rol',
+                        text: 'Rol de usuario desconocido.'
+                    });
+                    handleLogout();
             }
         } else {
-            alert(data.message || 'Error al iniciar sesión. Credenciales incorrectas.');
+            Swal.fire({
+                icon: 'error',
+                title: 'Error de acceso',
+                text: data.message || 'Credenciales incorrectas.'
+            });
         }
     } catch (error) {
-        alert(error.message);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error del sistema',
+            text: error.message
+        });
     }
 }
 
@@ -120,7 +141,11 @@ const handleRegistro = async (e) => {
     const confirmPassword = form.confirm_password.value;
 
     if (password !== confirmPassword) {
-        alert('Las contraseñas no coinciden.');
+        Swal.fire({
+            icon: 'warning',
+            title: 'Contraseñas no coinciden',
+            text: 'Por favor verifica que ambas contraseñas sean iguales.'
+        });
         return;
     }
 
@@ -134,18 +159,29 @@ const handleRegistro = async (e) => {
         });
 
         if (data.status) {
-            alert('Registro exitoso. Ahora puedes iniciar sesión.');
+            await Swal.fire({
+                icon: 'success',
+                title: 'Registro exitoso',
+                text: 'Ahora puedes iniciar sesión.'
+            });
             window.location.href = 'login.html';
         } else {
-            alert(data.message || 'Error al registrar el paciente.');
+            Swal.fire({
+                icon: 'error',
+                title: 'Error en registro',
+                text: data.message || 'No se pudo registrar el paciente.'
+            });
         }
 
     } catch (error) {
-        alert(error.message);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error del sistema',
+            text: error.message
+        });
     }
 };
 
-// Añadir Listeners al cargar la página
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {

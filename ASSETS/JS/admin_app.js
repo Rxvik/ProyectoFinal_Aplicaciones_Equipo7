@@ -1,41 +1,31 @@
 document.addEventListener('DOMContentLoaded', () => {
-    //Verificamos que tenemos el rol de admin
     if (typeof checkRoleAccess === 'function') {
         checkRoleAccess('admin') 
     }
 
     const path = window.location.pathname
 
-    // Inicializacion de dashboard
     if (path.includes('admin_dashboard.html')) {
-        console.log('Inicializando Dashboard...')
         setupAdminDashboard()
     }
 
-    // Inicializacion de Gestor Citas
     if (path.includes('admin_gestor_citas.html')) {
         setupGestorCitas()
     }
 
-    // Inicializacion del gestor de Medicos 
     if (path.includes('admin_gestor_medicos.html')) {
         setupGestorMedicos()
     }
 
-    // Inicializacion de Gestor Pacientes
     if (path.includes('admin_gestor_pacientes.html')) {
         setupGestorPacientes()
     }
 
-    // Inicialización de reportes
     if (path.includes('admin_reportes.html')) {
         setupAdminReportes()
     }
-
 })
 
-//////////////////////////////////
-// Funcionalidad del Dashboard (admin_dashboard.html)
 const loadDashboardData = async () => {
     try {
         const data = await fetchAPI('usuarios/admin/resumen.php', { method: 'GET' }) 
@@ -59,14 +49,7 @@ const setupAdminDashboard = async () => {
     await loadDashboardData()
 }
 
-
-/////////////////////////////////////////
-//Funcionalidad del Generador de reportes (pagina Reportes)
-/**
-* @param {HTMLSelectElement} selectElement - El elemento <select> donde se cargarán los médicos.
-*/
 const loadMedicosParaReporte = async (selectElement) => {
-    // Este se carga primero
     selectElement.innerHTML = '<option value="todos">Cargando médicos...</option>'
     
     try {
@@ -74,7 +57,7 @@ const loadMedicosParaReporte = async (selectElement) => {
         if (data.status && data.medicos && Array.isArray(data.medicos)) {
             let optionsHtml = '<option value="todos">Todos los médicos</option>'
             
-            data.medicos.forEach(medico => { // Recorre a todos los ids de los medicos
+            data.medicos.forEach(medico => {
                 const nombre = medico.nombre_completo || 'N/A'
                 const especialidad = medico.especialidad || 'Sin Especialidad'
                 const id = medico.id_medico
@@ -90,11 +73,9 @@ const loadMedicosParaReporte = async (selectElement) => {
             }
             
         } else {
-             console.error('Error de API o datos vacíos:', data)
              selectElement.innerHTML = '<option value="todos">Todos los médicos (Error de datos)</option>'
         }
     } catch (error) {
-        console.error('Fallo de conexión al cargar médicos:', error)
         selectElement.innerHTML = '<option value="todos">Todos los médicos (Fallo de conexión)</option>'
     }
 }
@@ -117,24 +98,22 @@ const setupAdminReportes = async () => {
 
                 if (inicio > fin) {
                     e.preventDefault()
-                    alert('La "Fecha de Fin" no puede ser anterior a la "Fecha de Inicio". Por favor, verifica el rango.')
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Fechas incorrectas',
+                        text: 'La Fecha de Fin no puede ser anterior a la Fecha de Inicio.'
+                    });
                 }
             }
         })
     }
 }
 
-//////////////////////////////////////////////////////////////////////
-// Gestor de Pacientes 
 const pacientesTableBody = document.getElementById('pacientes-table-body')
 const loadingMessage = document.getElementById('loading-message')
 const pacienteModal = document.getElementById('paciente-modal')
 const pacienteForm = document.getElementById('paciente-form')
 
-/**
-* Renderiza la lista de pacientes en la tabla.
-* @param {Array<Object>} pacientes - El arreglo de objetos paciente.
-*/
 const renderPacientes = (pacientes) => {
     if (!pacientesTableBody) return
     
@@ -173,11 +152,9 @@ const loadPacientes = async () => {
         if (data.status && Array.isArray(data.data)) {
             renderPacientes(data.data)
         } else {
-            console.error('Error al listar pacientes:', data.message || 'Datos no válidos')
             renderPacientes([])
         }
     } catch (error) {
-        console.error('Fallo de conexión al cargar pacientes:', error)
         if (pacientesTableBody) {
              pacientesTableBody.innerHTML = `<tr><td colspan="5" style="color: red; text-align: center;">Error de conexión.</td></tr>`
         }
@@ -185,14 +162,18 @@ const loadPacientes = async () => {
     }
 }
 
-/**
-* Aqui se maneja la eliminacion de un paciente
-* @param {number} idPaciente - ID del paciente a eliminar.
-*/
 const handleDeletePaciente = async (idPaciente) => {
-    if (!confirm('¿Estás seguro de que deseas eliminar a este paciente? Esta acción es irreversible y eliminará el registro de usuario asociado.')) {
-        return
-    }
+    const result = await Swal.fire({
+        title: '¿Estás seguro?',
+        text: "Esta acción eliminará al paciente y su usuario permanentemente.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar',
+        reverseButtons: true
+    });
+
+    if (!result.isConfirmed) return;
 
     try {
         const data = await fetchAPI('usuarios/admin/gestion_pacientes.php?accion=eliminar', {
@@ -202,20 +183,18 @@ const handleDeletePaciente = async (idPaciente) => {
         })
 
         if (data.status) {
-            alert(data.message || 'Paciente eliminado con éxito.')
+            Swal.fire('¡Eliminado!', data.message || 'Paciente eliminado con éxito.', 'success');
             await loadPacientes() 
         } else {
-            alert('Error al eliminar: ' + (data.message || 'Error desconocido.'))
+            Swal.fire('Error', data.message || 'Error desconocido.', 'error');
         }
     } catch (error) {
-        console.error('Error de eliminación:', error)
-        alert('Fallo de conexión al intentar eliminar el paciente.')
+        Swal.fire('Error', 'Fallo de conexión al intentar eliminar.', 'error');
     }
 }
 
 const setupPacientesTableListeners = () => {
     pacientesTableBody.removeEventListener('click', handlePacientesTableClick)
-
     pacientesTableBody.addEventListener('click', handlePacientesTableClick)
 }
 
@@ -245,16 +224,23 @@ const handleSavePaciente = async (e) => {
         })
 
         if (result.status) {
-            alert(result.message || 'Paciente registrado con éxito.')
+            await Swal.fire({
+                icon: 'success',
+                title: 'Guardado',
+                text: result.message || 'Paciente registrado con éxito.'
+            });
             pacienteModal.style.display = 'none'
             pacienteForm.reset()
             await loadPacientes()
         } else {
-            alert('Error: ' + (result.message || 'Error desconocido.'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: result.message || 'Error desconocido.'
+            });
         }
     } catch (error) {
-        console.error('Error al guardar paciente:', error)
-        alert('Fallo de conexión al guardar el paciente.')
+        Swal.fire('Error', 'Fallo de conexión al guardar el paciente.', 'error');
     }
 }
 
@@ -280,18 +266,12 @@ const setupGestorPacientes = () => {
     }
 }
 
-/////////////////////////////////////////////////////////////////////////
-// Funcionalidad de Gestión de Citas (admin_gestor_citas.html)
 const citasTableBody = document.getElementById('citas-table-body')
 const citaModal = document.getElementById('cita-modal')
 const citaForm = document.getElementById('cita-form')
 const medicoSelect = document.getElementById('medico-select')
 const pacienteSelect = document.getElementById('select-paciente')
 
-/**
- * @param {string} estado - ya sea cancelada, completada, Confirmada o pendiente
- * @returns {string} 
- */
 const getStatusBadgeClass = (estado) => {
     switch (estado) {
         case 'confirmada':
@@ -306,10 +286,6 @@ const getStatusBadgeClass = (estado) => {
     }
 }
 
-/**
- * Renderiza la lista de citas en la tabla.
- * @param {Array<Object>} citas - Arreglo 
- */
 const renderCitas = (citas) => {
     if (!citasTableBody) return
 
@@ -353,7 +329,6 @@ const renderCitas = (citas) => {
     setupCitasTableListeners()
 }
 
-//Carga los médicos disponibles para el modal de edicion de citas.
 const loadMedicosParaEdicion = async (currentMedicoId = null) => {
     if (!medicoSelect) return
     medicoSelect.innerHTML = '<option value="">Cargando médicos...</option>'
@@ -374,11 +349,9 @@ const loadMedicosParaEdicion = async (currentMedicoId = null) => {
 
             medicoSelect.innerHTML = optionsHtml
         } else {
-             console.error('Error de API o datos vacíos al cargar médicos:', data)
              medicoSelect.innerHTML = '<option value="">Error al cargar médicos</option>'
         }
     } catch (error) {
-        console.error('Fallo de conexión al cargar médicos:', error)
         medicoSelect.innerHTML = '<option value="">Fallo de conexión</option>'
     }
 }
@@ -400,7 +373,6 @@ const loadPacientesParaCita = async () => {
     }
 }
 
-//Carga las citas de lapi y llama a la función de renderizado.
 const loadCitas = async () => {
     const citaLoadingMessage = document.getElementById('loading-message')
     if (citaLoadingMessage) citaLoadingMessage.style.display = 'block'
@@ -411,11 +383,9 @@ const loadCitas = async () => {
         if (data.status && Array.isArray(data.data)) {
             renderCitas(data.data)
         } else {
-            console.error('Error al listar citas:', data.message || 'Datos no válidos')
             renderCitas([])
         }
     } catch (error) {
-        console.error('Fallo de conexión al cargar citas:', error)
         if (citasTableBody) {
              citasTableBody.innerHTML = `<tr><td colspan="6" style="color: red; text-align: center;">Error de conexión.</td></tr>`
         }
@@ -423,16 +393,12 @@ const loadCitas = async () => {
     }
 }
 
-/**
- * se abre el modal de edicion para las citas y carga los datos de la cita que queremos editar
- * @param {number} idCita - ID de la cita a editar.
- */
 const openCitaModal = async (idCita) => {
     if (!citaModal) return
     
     const row = document.querySelector(`tr[data-id="${idCita}"]`)
     if (!row) {
-        alert('Error: Cita no encontrada en la tabla para edición.')
+        Swal.fire('Error', 'Cita no encontrada en la tabla.', 'error')
         return
     }
 
@@ -440,14 +406,12 @@ const openCitaModal = async (idCita) => {
     const [fechaStr, horaAMPM] = row.cells[3].textContent.split(' - ')
     const estado = row.cells[4].querySelector('.badge').textContent.toLowerCase()
     
-    // Formato de fecha para uqe pase de input type="date": DD/MM/YYYY a esto => YYYY-MM-DD
     const [day, month, year] = fechaStr.split('/')
     const fechaInput = `${year}-${month}-${day}`
     const horaInput = horaAMPM.replace(' AM', '').replace(' PM', '').slice(0, 5)
     
     await loadMedicosParaEdicion(medicoId)
     
-    // ids del formulacio de la cita para editar
     document.getElementById('cita-id-edit').value = idCita
     document.getElementById('fecha-cita').value = fechaInput
     document.getElementById('hora-cita').value = horaInput
@@ -461,7 +425,6 @@ const openCitaModal = async (idCita) => {
     citaModal.style.display = 'block'
 }
 
-//Maneja el envío del formulario de edición en gestion citas.
 const handleSaveCita = async (e) => {
     e.preventDefault()
     const idCita = document.getElementById('cita-id-edit').value
@@ -473,14 +436,14 @@ const handleSaveCita = async (e) => {
     const idPaciente = pacienteSelect ? pacienteSelect.value : null
 
     if (!idMedico || !fechaCita || !horaCita) {
-        alert('Todos los campos son obligatorios.')
+        Swal.fire('Atención', 'Todos los campos son obligatorios.', 'warning')
         return
     }
     
     const accion = idCita ? 'editar' : 'crear'
     
     if (accion === 'crear' && !idPaciente) {
-        alert('Debes seleccionar un paciente.')
+        Swal.fire('Atención', 'Debes seleccionar un paciente.', 'warning')
         return
     }
 
@@ -502,26 +465,30 @@ const handleSaveCita = async (e) => {
         })
 
         if (result.status) {
-            alert(result.message || 'Operación exitosa.')
+            await Swal.fire('Éxito', result.message || 'Operación exitosa.', 'success')
             citaModal.style.display = 'none'
             await loadCitas()
         } else {
-            alert('Error: ' + (result.message || 'Error desconocido.'))
+            Swal.fire('Error', result.message || 'Error desconocido.', 'error')
         }
     } catch (error) {
-        console.error('Error al enviar formulario:', error)
-        alert('Fallo de conexión.')
+        Swal.fire('Error', 'Fallo de conexión.', 'error')
     }
 }
 
-/**
- * manejo de la cancelacion de una cita.
- * @param {number} idCita - ID de la cita a cancelar.
- */
 const handleCancelCita = async (idCita) => {
-    if (!confirm('¿Estás seguro de que deseas cancelar esta cita?')) {
-        return
-    }
+    const result = await Swal.fire({
+        title: '¿Estás seguro?',
+        text: "La cita será marcada como cancelada.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, cancelar',
+        cancelButtonText: 'No',
+        reverseButtons: true
+    });
+
+    if (!result.isConfirmed) return
+
     try {
         const data = await fetchAPI('usuarios/admin/gestion_citas.php', {
             method: 'POST',
@@ -530,14 +497,13 @@ const handleCancelCita = async (idCita) => {
         })
 
         if (data.status) {
-            alert(data.message || 'Cita cancelada con éxito.')
+            Swal.fire('Cancelada', data.message || 'Cita cancelada con éxito.', 'success')
             await loadCitas() 
         } else {
-            alert('Error al cancelar: ' + (data.message || 'Error desconocido.'))
+            Swal.fire('Error', data.message || 'Error desconocido.', 'error')
         }
     } catch (error) {
-        console.error('Error de cancelación:', error)
-        alert('Fallo de conexión al intentar cancelar la cita.')
+        Swal.fire('Error', 'Fallo de conexión.', 'error')
     }
 }
 
@@ -559,7 +525,6 @@ const handleCitasActionsClick = (e) => {
     }
 }
 
-//Inicializa la funcionalidad de Gestión de Citas.
 const setupGestorCitas = () => {
     loadCitas()
     
@@ -596,8 +561,6 @@ const setupGestorCitas = () => {
     }
 }
 
-//////////////////////////////////////////////////////////////////
-// Funcionalidad de Gestión de Médicos (admin_gestor_medicos.html)
 const medicosTableBody = document.getElementById('medicos-table-body')
 const medicoModal = document.getElementById('medico-modal')
 const medicoForm = document.getElementById('medico-form')
@@ -606,10 +569,6 @@ const passwordGroup = document.getElementById('password-group')
 const emailInput = document.getElementById('email')
 const passwordInput = document.getElementById('password')
 
-/**
- * renderiza la lista de medicos en la tabla.
- * @param {Array<Object>} medicos - El arreglo de objetos médico.
- */
 const renderMedicos = (medicos) => {
     if (!medicosTableBody) return
     let html = ''
@@ -640,7 +599,6 @@ const renderMedicos = (medicos) => {
     setupMedicosTableListeners()
 }
 
-// funcion para cargar a los megicos
 const loadMedicos = async () => {
     const medicoLoadingMessage = document.getElementById('loading-message')
     if (medicoLoadingMessage) medicoLoadingMessage.style.display = 'block'
@@ -650,11 +608,9 @@ const loadMedicos = async () => {
         if (data.status && Array.isArray(data.data)) {
             renderMedicos(data.data)
         } else {
-            console.error('Error al listar médicos:', data.message || 'Datos no válidos')
             renderMedicos([])
         }
     } catch (error) {
-        console.error('Fallo de conexión al cargar médicos:', error)
         if (medicosTableBody) {
              medicosTableBody.innerHTML = `<tr><td colspan="6" style="color: red; text-align: center;">Error de conexión.</td></tr>`
         }
@@ -662,7 +618,6 @@ const loadMedicos = async () => {
     }
 }
 
-// Funcion para abrir el modal de un nuevo medico
 const openCreateModal = () => {
     if (!medicoModal) return
     modalTitle.textContent = 'Agregar Nuevo Médico'
@@ -676,31 +631,24 @@ const openCreateModal = () => {
     medicoModal.style.display = 'block'
 }
 
-/**
- * Abre el modal para editar info de un medico.
- * @param {number} idMedico - ID del médico a editar.
- */
 const openEditModal = (idMedico) => {
     if (!medicoModal) return
     
     const row = document.querySelector(`tr[data-id="${idMedico}"]`)
     if (!row) {
-        alert('Error: Médico no encontrado en la tabla para edición.')
+        Swal.fire('Error', 'Médico no encontrado.', 'error')
         return
     }
 
     const [id, nombre, especialidad, email, telefono] = Array.from(row.cells).map(cell => cell.textContent)
     
-    //Configurar para editar
     modalTitle.textContent = `Editar Médico #${idMedico}`
     medicoForm.dataset.mode = 'edit'
     document.getElementById('medico-id-edit').value = idMedico
     
-    // deshabilitamos la contraseña y el email ya que son campos que no se pueden editar
     emailInput.disabled = true
-    passwordGroup.style.display = 'none' // no mostramos el campo de la contraseña
+    passwordGroup.style.display = 'none' 
     
-    //id para el formulario
     document.getElementById('nombre').value = nombre
     document.getElementById('especialidad').value = especialidad
     emailInput.value = email
@@ -708,7 +656,6 @@ const openEditModal = (idMedico) => {
     medicoModal.style.display = 'block'
 }
 
-// Se maneja el envio del formulacio ya sea para crear o modificar un medico
 const handleSaveMedico = async (e) => {
     e.preventDefault()
     const mode = medicoForm.dataset.mode
@@ -720,7 +667,7 @@ const handleSaveMedico = async (e) => {
     const password = passwordInput.value
     
     if (mode === 'create' && !password) {
-        alert('La contraseña es obligatoria para crear un nuevo médico.')
+        Swal.fire('Atención', 'La contraseña es obligatoria.', 'warning')
         return
     }
     let endpoint = 'usuarios/admin/gestion_medicos.php'
@@ -745,7 +692,7 @@ const handleSaveMedico = async (e) => {
             especialidad,
             telefono,
         }
-        successMessage = 'Datos del médico actualizados con éxito.'
+        successMessage = 'Datos actualizados con éxito.'
     } else {
         return
     }
@@ -758,26 +705,29 @@ const handleSaveMedico = async (e) => {
         })
 
         if (result.status) {
-            alert(result.message || successMessage)
+            await Swal.fire('Guardado', result.message || successMessage, 'success')
             medicoModal.style.display = 'none'
             await loadMedicos()
         } else {
-            alert('Error: ' + (result.message || 'Error desconocido.'))
+            Swal.fire('Error', result.message || 'Error desconocido.', 'error')
         }
     } catch (error) {
-        console.error('Error al enviar formulario de médico:', error)
-        alert('Fallo de conexión al guardar el médico.')
+        Swal.fire('Error', 'Fallo de conexión.', 'error')
     }
 }
 
-/**
- * Manejo para la eliminación de un médico.
- * @param {number} idMedico - ID del médico a eliminar.
- */
 const handleDeleteMedico = async (idMedico) => {
-    if (!confirm('¿Estás seguro de que deseas eliminar a este médico? Esto eliminará también su cuenta de usuario y todas las citas asociadas (si no hay restricción de DB). Esta acción es irreversible.')) {
-        return
-    }
+    const result = await Swal.fire({
+        title: '¿Eliminar Médico?',
+        text: "Esto eliminará su cuenta y accesos de forma permanente.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar',
+        reverseButtons: true
+    });
+
+    if (!result.isConfirmed) return
 
     try {
         const data = await fetchAPI('usuarios/admin/gestion_medicos.php', {
@@ -787,14 +737,13 @@ const handleDeleteMedico = async (idMedico) => {
         })
 
         if (data.status) {
-            alert(data.message || 'Médico eliminado del sistema con éxito.')
+            Swal.fire('Eliminado', data.message || 'Médico eliminado.', 'success')
             await loadMedicos() 
         } else {
-            alert('Error al eliminar: ' + (data.message || 'Error desconocido.'))
+            Swal.fire('Error', data.message || 'Error desconocido.', 'error')
         }
     } catch (error) {
-        console.error('Error de eliminación:', error)
-        alert('Fallo de conexión al intentar eliminar el médico.')
+        Swal.fire('Error', 'Fallo de conexión.', 'error')
     }
 }
 
@@ -816,7 +765,6 @@ const handleMedicosActionsClick = (e) => {
     }
 }
 
-//Inicializa la funcionalidad de Gestión de Médicos.
 const setupGestorMedicos = () => {
     loadMedicos()
 
