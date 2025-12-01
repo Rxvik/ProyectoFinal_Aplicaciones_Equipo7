@@ -89,9 +89,9 @@
         $asunto = "Confirmación de Cita - Papuclinica";
         $mensaje = "Hola $nombre_paciente,\n\n";
         $mensaje .= "Tu cita ha sido agendada exitosamente.\n";
-        $mensaje .= "👨‍⚕️ Médico: $nombre_doctor\n";
-        $mensaje .= "📅 Fecha: $fecha_cita\n";
-        $mensaje .= "⏰ Hora: $hora_cita\n\n";
+        $mensaje .= "Médico: $nombre_doctor\n";
+        $mensaje .= "Fecha: $fecha_cita\n";
+        $mensaje .= "Hora: $hora_cita\n\n";
         $mensaje .= "Gracias por confiar en nosotros.";
 
         enviar_correo($email_paciente, $asunto, $mensaje);

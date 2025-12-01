@@ -5,6 +5,7 @@ const DIAS_SEMANA = [
     { id: 4, nombre: 'Jueves', campo: 'Jueves' },
     { id: 5, nombre: 'Viernes', campo: 'Viernes' },
     { id: 6, nombre: 'Sabado', campo: 'Sabado' },
+    { id: 6, nombre: 'Domingo', campo: 'Domingo' }
 ]
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -61,15 +62,15 @@ const handleCompletarCita = async (e) => {
         })
 
         if (result.status) {
-            alert(result.message || 'Cita completada con éxito.')
+            Swal.fire('Cita completada', result.message || 'Cita completada con éxito.', 'success')
             await loadDashboardData() 
         } else {
-            alert(`Error al completar la cita: ${result.message || 'Respuesta de API inválida.'}`)
+            Swal.fire('Error', result.message || 'Respuesta de API inválida.', 'error')
         }
 
     } catch (error) {
         console.error('Error al completar cita:', error)
-        alert(`Fallo en la conexión al servidor.`)
+        Swal.fire('Error', 'Fallo en la conexión al servidor.', 'error')
     } finally {
         button.disabled = false
         button.textContent = 'Completada' 
@@ -136,7 +137,7 @@ const loadDashboardData = async () => {
 
     } catch (error) {
         console.error('Error fatal al cargar dashboard:', error)
-        alert('Error al cargar el dashboard. Ver consola.')
+        Swal.fire('Error', 'Error al cargar el dashboard. Ver consola.', 'error')
     }
 }
 const setupMedicoDashboard = async () => {
@@ -224,7 +225,7 @@ const loadHorarios = async () => {
         }
     } catch (error) {
         console.error('Fallo de conexión al cargar horarios:', error)
-        alert('Error de conexión al cargar horarios. Ver consola.')
+        Swal.fire('Error', 'Fallo de conexión al cargar horarios.', 'error')
         renderHorariosForm([])
     }
 }
@@ -246,13 +247,13 @@ const handleGuardarHorarios = async (e) => {
             const inicio = inicioInput ? inicioInput.value : ''
             const fin = finInput ? finInput.value : ''
             if (!inicio || !fin) {
-                alert(`Error: Debes especificar la hora de inicio y fin para el día ${dia.nombre}.`)
+                Swal.fire('Error', `Debes especificar la hora de inicio y fin para el día ${dia.nombre}.`, 'error')
                 isValid = false
                 return 
             }
             // Validación de horas
             if (inicio >= fin) {
-                alert(`Error: La hora de fin debe ser posterior a la hora de inicio para el día ${dia.nombre}.`)
+                Swal.fire('Error', `La hora de fin debe ser posterior a la hora de inicio para el día ${dia.nombre}.`, 'error')
                 isValid = false
                 return 
             }
@@ -278,15 +279,15 @@ const handleGuardarHorarios = async (e) => {
         })
 
         if (result.status) {
-            alert(result.message || 'Horarios guardados con éxito.')
+            Swal.fire('Guardado', result.message || 'Horarios guardados con éxito.', 'success')
             await loadHorarios()
         } else {
-            alert(`Error al guardar: ${result.message || 'Respuesta de API inválida.'}`)
+            Swal.fire('Error', result.message || 'Error desconocido.', 'error')
         }
 
     } catch (error) {
         console.error('Error al guardar horarios:', error)
-        alert(`Fallo en la conexión al servidor: ${error.message}`)
+        Swal.fire('Error', 'Fallo de conexión.', 'error')
     }
 }
 
@@ -344,7 +345,7 @@ const loadPacientes = async () => {
 
     } catch (error) {
         console.error('Fallo de conexión al cargar pacientes:', error)
-        alert('Error de conexión al cargar pacientes. Ver consola.')
+        Swal.fire('Error', 'Fallo de conexión al cargar pacientes.', 'error')
         renderPacientesTable([])
     }
 }

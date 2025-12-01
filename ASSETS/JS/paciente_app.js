@@ -159,9 +159,10 @@ const createCitaCard = (cita, isPast = false) => {
     const estadoDisplay = (cita.estado === 'pendiente' || cita.estado === 'confirmada') ? 'Próxima' : 
                           (cita.estado === 'completada' ? 'Completada' : 'Cancelada')
     
-    const fecha = new Date(cita.fecha_cita).toLocaleDateString('es-ES', { 
+    const fecha = new Date(`${cita.fecha_cita}T${cita.hora_cita}`).toLocaleDateString('es-ES', { 
         weekday: 'long', day: 'numeric', month: 'short' 
     })
+
     const hora = cita.hora_cita.substring(0, 5)
 
     const actionButton = isPast || estadoDisplay === 'Cancelada' || estadoDisplay === 'Completada'
@@ -294,13 +295,12 @@ const setupAgendarCitaFlujo = async () => {
             calendarInstance = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'timeGridWeek',
                 locale: 'es',
-                slotDuration: '00:30:00', 
+                slotDuration: '01:00:00', 
                 slotLabelInterval: '00:30', 
-                snapDuration: '00:30:00', 
+                snapDuration: '01:00:00', 
                 slotMinTime: '08:00:00',
-                slotMaxTime: '20:00:00',
+                slotMaxTime: '24:00:00',
                 allDaySlot: false,
-                hiddenDays: [0],
                 height: 500,
                 events: ocupacion, 
                 
